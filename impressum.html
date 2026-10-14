@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Impressum – Do Sushi Haus</title>
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#111111">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/motion.css">
+<style>
+  .legal { padding-bottom: var(--section-y); }
+  .legal__body { background: rgba(26,26,26,.7); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.5rem, 1rem + 3vw, 3.5rem); }
+  .legal h2 { font-size: 1.35rem; color: var(--gold); margin: var(--s-6) 0 var(--s-2); }
+  .legal h2:first-child { margin-top: 0; }
+  .legal p, .legal li { color: var(--ink); opacity: .88; }
+  .legal ul { padding-left: 1.2em; margin: 0 0 var(--s-3); }
+  .legal a { color: var(--gold); }
+  .ph-mark { background: rgba(198,42,31,.18); color: #ff9d8f; padding: 0 .3em; border-radius: 2px; }
+</style>
+</head>
+<body class="slate">
+<!-- ===== Shared SVG symbols ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter>
+  <filter id="brushy"><feTurbulence type="fractalNoise" baseFrequency=".04 .6" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></g></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+  <symbol id="i-fish" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 24c6-9 18-12 28-6l8-6v24l-8-6C24 36 12 33 6 24z"/><circle cx="14" cy="22" r="1.2" fill="currentColor"/><path d="M22 18c2 4 2 8 0 12"/></g></symbol>
+  <symbol id="i-hands" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 40 30 6M14 42 38 10"/><ellipse cx="26" cy="34" rx="12" ry="6"/><path d="M14 34c0 6 24 6 24 0"/></g></symbol>
+  <symbol id="i-leaf" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M10 38C8 20 20 8 40 8c0 20-12 32-30 30z"/><path d="M10 38 30 18"/></g></symbol>
+  <symbol id="lantern" viewBox="0 0 64 120">
+    <line x1="32" y1="0" x2="32" y2="14" stroke="#4a4a4a" stroke-width="1.5"/>
+    <ellipse class="lantern__glow" cx="32" cy="62" rx="30" ry="38" fill="#e07a2e"/>
+    <rect x="20" y="14" width="24" height="8" rx="2" fill="#151515"/>
+    <path d="M14 26 Q2 62 14 98 L50 98 Q62 62 50 26 Z" fill="#b8321f"/>
+    <path d="M14 26 Q2 62 14 98 L50 98 Q62 62 50 26 Z" fill="url(#lg)"/>
+    <g stroke="#7a1d12" stroke-width="1" fill="none" opacity=".7"><path d="M11 38H53M8 50H56M7 62H57M8 74H56M11 86H53"/></g>
+    <rect x="18" y="20" width="28" height="7" rx="2" fill="#151515"/>
+    <rect x="18" y="97" width="28" height="7" rx="2" fill="#151515"/>
+    <path d="M32 104V118" stroke="#d4a72c" stroke-width="1.5"/>
+    <defs><radialGradient id="lg" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#ffb35c" stop-opacity=".8"/><stop offset="1" stop-color="#7a1d12" stop-opacity="0"/></radialGradient></defs>
+  </symbol>
+  <symbol id="koi" viewBox="0 0 100 40">
+    <path d="M16 20C8 12 4 6 0 3c4 9 4 25 0 34 4-3 8-9 16-17z" fill="var(--koi-fin, #c62a1f)" opacity=".8"/>
+    <path d="M70 11c-4-9-12-11-14-9 4 4 8 8 10 10zM70 29c-4 9-12 11-14 9 4-4 8-8 10-10z" fill="var(--koi-fin, #c62a1f)" opacity=".7"/>
+    <path d="M98 20c-6-10-28-14-48-11-15 2-28 6-36 11 8 5 21 9 36 11 20 3 42-1 48-11z" fill="var(--koi-body, #c62a1f)"/>
+    <ellipse cx="80" cy="18" rx="9" ry="5" fill="var(--koi-spot, #f2ede3)" opacity=".9"/>
+    <ellipse cx="48" cy="22" rx="10" ry="4" fill="var(--koi-spot, #f2ede3)" opacity=".8"/>
+  </symbol>
+</svg>
+
+<!-- ===== Living background ===== -->
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__light ambient__light--a"></div>
+  <div class="ambient__light ambient__light--b"></div>
+  <div class="ambient__spot"></div>
+  <div class="ambient__vignette"></div>
+</div>
+
+
+<div class="ambient" aria-hidden="true"><div class="ambient__light ambient__light--a"></div><div class="ambient__light ambient__light--b"></div><div class="ambient__spot"></div><div class="ambient__vignette"></div></div>
+<!-- ===== Header ===== -->
+<header class="site-header" id="header">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html" aria-label="Do Sushi Haus – Startseite">
+      <span class="brand__mark"><img src="assets/img/logo-tmp.jpg" alt=""></span>
+      <span class="brand__name">Do Sushi Haus<small>Japanese Cuisine</small></span>
+    </a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <ul>
+        <li><a href="index.html">Startseite</a></li>
+        <li><a href="speisekarte.html">Speisekarte</a></li>
+        <li><a href="impressum.html" aria-current="page">Impressum</a></li>
+        <li><a href="datenschutz.html">Datenschutz</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--ghost header-call" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>03683 6098662</a>
+    <button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu" id="menuToggle"><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="index.html">Startseite</a></li>
+    <li><a href="speisekarte.html">Speisekarte</a></li>
+    <li><a href="impressum.html" aria-current="page">Impressum</a></li>
+    <li><a href="datenschutz.html">Datenschutz</a></li>
+  </ul>
+  <div>
+    <p class="label">Bestellung &amp; Reservierung</p>
+    <a class="btn btn--primary" href="tel:+4936836098662" style="width:100%"><svg><use href="#i-phone"/></svg>03683 6098662</a>
+  </div>
+</div>
+
+
+<main>
+  <section class="page-hero">
+    <div class="container" data-stagger>
+      <p class="label hero__eyebrow">Rechtliches</p>
+      <h1 class="display" data-split>Impressum</h1>
+    </div>
+  </section>
+  <section class="legal">
+    <div class="container measure"><div class="legal__body reveal">
+<h2>Angaben gemäß § 5 DDG</h2>
+<p>Do Sushi Haus<br>Inhaber: <mark class="ph-mark">[Vor- und Nachname des Inhabers]</mark><br>Steingasse 10<br>98574 Schmalkalden<br>Deutschland</p>
+
+<h2>Kontakt</h2>
+<p>Telefon: <a href="tel:+4936836098662">03683 6098662</a><br>E-Mail: <mark class="ph-mark">[E-Mail-Adresse]</mark></p>
+
+<h2>Umsatzsteuer-ID</h2>
+<p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: <mark class="ph-mark">[USt-IdNr., falls vorhanden – sonst Abschnitt löschen]</mark></p>
+
+<h2>Verbraucherstreitbeilegung</h2>
+<p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+<h2>Haftung für Inhalte</h2>
+<p>Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+<p>Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden entsprechender Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.</p>
+
+<h2>Haftung für Links</h2>
+<p>Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir keinen Einfluss haben. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.</p>
+
+<h2>Bildnachweise</h2>
+<p>Eigene Fotos: Do Sushi Haus. Mit „Symbolbild“ gekennzeichnete Fotos stammen von <a href="https://unsplash.com" rel="noopener">Unsplash</a> (Unsplash-Lizenz) und zeigen Serviervorschläge. Stimmungsbilder (Laternen) dienen nur der Atmosphäre: Pexels (Foto 3258432, Pexels-Lizenz) und Svetlana Gumerova / Unsplash. Fotos von: <a href="https://unsplash.com/photos/a-black-plate-topped-with-sushi-next-to-a-cup-of-tea-4_FsMDmCc6A" rel="noopener">Ahtziri Lagarde</a>, <a href="https://unsplash.com/photos/a-black-plate-topped-with-sushi-on-top-of-a-table-Fq13XX9mNvw" rel="noopener">Ahtziri Lagarde</a>, <a href="https://unsplash.com/photos/nigiri-sushi-on-dark-plates-FrGqzIeSEXI" rel="noopener">Akari</a>, <a href="https://unsplash.com/photos/a-wooden-table-topped-with-bowls-of-food-2CvGJqeZHNw" rel="noopener">Aldino Hartan Putra</a>, <a href="https://unsplash.com/photos/brown-bread-on-white-ceramic-plate-UkudQyyeovs" rel="noopener">Alexandra Tran</a>, <a href="https://unsplash.com/photos/a-black-plate-topped-with-sushi-and-vegetables-XY7UQ-O-Bns" rel="noopener">Alimentos Fotogénicos</a>, <a href="https://unsplash.com/photos/brown-cookies-on-black-table-iy_MT2ifklc" rel="noopener">Andraz Lazic</a>, <a href="https://unsplash.com/photos/vegetable-salad-in-white-ceramic-bowl-ZwzZ5F_pIBU" rel="noopener">Andreas Rasmussen</a>, <a href="https://unsplash.com/photos/a-person-holding-a-piece-of-sushi-with-chopsticks-WdodX3Giv2w" rel="noopener">Andrey Câmara</a>, <a href="https://unsplash.com/photos/a-sushi-dish-is-served-on-a-black-plate-IPigp0qQdEM" rel="noopener">Brandon Conradie</a>, <a href="https://unsplash.com/photos/a-wooden-cutting-board-with-a-cake-on-a-table-zKs7oBwQiak" rel="noopener">David Foodphototasty</a>, <a href="https://unsplash.com/photos/food-on-a-table-2zcNfPQHlkU" rel="noopener">David Foodphototasty</a>, <a href="https://unsplash.com/photos/chopsticks-holding-a-single-piece-of-sushi-roll-bQHK2Z3NIY0" rel="noopener">Diego Arenas de Rodrigo</a>, <a href="https://unsplash.com/photos/fried-seafood-and-vegetables-with-rice--lvFkJo7FTw" rel="noopener">Diego Arenas de Rodrigo</a>, <a href="https://unsplash.com/photos/sushi-roll-with-chopsticks-on-dark-background-rDPCmO_jjkc" rel="noopener">Diego Arenas de Rodrigo</a>, <a href="https://unsplash.com/photos/spring-rolls-on-plate-L7dVTV02afU" rel="noopener">Emily Webster</a>, <a href="https://unsplash.com/photos/a-white-plate-topped-with-cucumbers-on-top-of-a-wooden-table-5sX7xNxZQ9o" rel="noopener">Harrison Chang</a>, <a href="https://unsplash.com/photos/a-bowl-filled-with-lots-of-different-types-of-food-a07BcNKwK5I" rel="noopener">Huyen Bui</a>, <a href="https://unsplash.com/photos/sushi-on-black-ceramic-plate-iOHJKJqO6E0" rel="noopener">Jakub Dziubak</a>, <a href="https://unsplash.com/photos/green-and-white-vegetable-dish-54iqhwYbNyI" rel="noopener">Jennifer Latuperisa-Andresen</a>, <a href="https://unsplash.com/photos/a-black-plate-topped-with-sushi-and-chopsticks-4ykELaXgeOM" rel="noopener">Luc Bercoth</a>, <a href="https://unsplash.com/photos/food-lot-close-up-photography-wmPDe9OnXT4" rel="noopener">Luigi Pozzoli</a>, <a href="https://unsplash.com/photos/brown-and-white-bread-with-chocolate-n1DePkKznLY" rel="noopener">Mahmoud Fawzy</a>, <a href="https://unsplash.com/photos/brown-and-white-cupcakes-on-black-tray-EqoCUzG9200" rel="noopener">Mahmoud Fawzy</a>, <a href="https://unsplash.com/photos/sushi-on-black-rectangular-tray-CIlzXVlYQJQ" rel="noopener">Mahmoud Fawzy</a>, <a href="https://unsplash.com/photos/sushi-on-black-rectangular-tray-qL1epYy4hdU" rel="noopener">Mahmoud Fawzy</a>, <a href="https://unsplash.com/photos/sushi-on-white-ceramic-plate-FBezBX26dyY" rel="noopener">Mahmoud Fawzy</a>, <a href="https://unsplash.com/photos/white-and-brown-cake-on-black-surface-Wo7zARfuh_4" rel="noopener">Mahmoud Fawzy</a>, <a href="https://unsplash.com/photos/white-and-brown-round-food-on-white-ceramic-plate-MgvByrhYz24" rel="noopener">Mahmoud Fawzy</a>, <a href="https://unsplash.com/photos/fried-shrimp-sushi-rolls-with-avocado-and-spicy-mayonnaise-K7eo8WOkShA" rel="noopener">Max Griss</a>, <a href="https://unsplash.com/photos/fried-rice-with-chicken-and-vegetables-on-plate-gpkRa3elzrI" rel="noopener">Mohammad Fahim</a>, <a href="https://unsplash.com/photos/a-plate-of-sushi-_vGfJ3J884g" rel="noopener">Nahima Aparicio</a>, <a href="https://unsplash.com/photos/a-plate-of-food-on-a-wooden-table-gWNjVpPZGrA" rel="noopener">Negar Mz</a>, <a href="https://unsplash.com/photos/fresh-colorful-poke-bowl-on-a-round-wooden-table-H-DKnqVDOUk" rel="noopener">Omar Ramadan</a>, <a href="https://unsplash.com/photos/food-photography-of-varieties-of-sushies-O2yNzXdqOu0" rel="noopener">Riccardo Bergamini</a>, <a href="https://unsplash.com/photos/pasta-on-plate-Xe14NrSK9io" rel="noopener">Riccardo Bergamini</a>, <a href="https://unsplash.com/photos/a-white-plate-topped-with-sushi-and-chopsticks-P6holuQ8uw4" rel="noopener">Ronald Vargas</a>, <a href="https://unsplash.com/photos/a-plate-of-food-on-a-table-next-to-a-glass-of-orange-juice-VeK39ynd3Ac" rel="noopener">SJ 📸</a>, <a href="https://unsplash.com/photos/freshly-sliced-sashimi-is-artfully-arranged-on-ice-5v29wo-fF0g" rel="noopener">Sammy Xu</a>, <a href="https://unsplash.com/photos/seared-tuna-slices-on-scalloped-plate-XrGsr9t67Zo" rel="noopener">Samuel Isaacs</a>, <a href="https://unsplash.com/photos/assorted-sushi-platter-with-salmon-vzKTeo6N3lM" rel="noopener">Samuel Sylf</a>, <a href="https://unsplash.com/photos/a-black-plate-with-some-food-in-it-YgoiyrdEuMc" rel="noopener">Stefan Schauberger</a>, <a href="https://unsplash.com/photos/sushi-plates-on-gray-platter-UTUENGAbNg0" rel="noopener">Valentin Kremer</a>, <a href="https://unsplash.com/photos/salmon-sushi-rolls-on-plate--1GEAA8q3wk" rel="noopener">Vinicius Benedit</a>, <a href="https://unsplash.com/photos/bowl-of-tofu-corn-broccoli-and-carrots-_VWg1YZNDnM" rel="noopener">XinYing Lin</a>, <a href="https://unsplash.com/photos/sushi-on-brown-wooden-table-dV9GoGyODPQ" rel="noopener">Yolanda Djajakesukma</a>, <a href="https://unsplash.com/photos/a-plate-of-food-5wWAIfnx1rM" rel="noopener">You Le</a>, <a href="https://unsplash.com/photos/noodle-soup-on-black-bowl-1zlLiOT81Jw" rel="noopener">Youjeen Cho</a>, <a href="https://unsplash.com/photos/a-wooden-table-topped-with-bowls-of-food-3dLugt4oBLU" rel="noopener">Zion C</a>, <a href="https://unsplash.com/photos/a-tray-of-sushi-with-avocado-and-salmon-Y3qFrmCGGCw" rel="noopener">blackieshoot</a>, <a href="https://unsplash.com/photos/a-black-plate-topped-with-sushi-covered-in-sauce-6h67YVuQggI" rel="noopener">kimia kazemi</a>, <a href="https://unsplash.com/photos/a-close-up-of-a-sushi-roll-on-a-table-quOZwIpGm58" rel="noopener">Ömer Taha Çetin</a>, <a href="https://unsplash.com/photos/a-close-up-of-a-sushi-with-chopsticks-TfprEYG22cM" rel="noopener">Ömer Taha Çetin</a>, <a href="https://unsplash.com/photos/a-sushi-roll-covered-in-sesame-seeds--jG4NlPh7O4" rel="noopener">Ömer Taha Çetin</a>, <a href="https://unsplash.com/photos/a-black-plate-topped-with-a-roll-covered-in-sushi-QEdTPVeG90k" rel="noopener">Игорь Федоровский</a>.</p>
+</div></div>
+  </section>
+</main>
+<!-- ===== Footer: koi pond ===== -->
+<footer class="pond">
+  <div class="pond__water" id="pond" aria-hidden="true">
+    <svg class="pond__koi pond__koi--1" viewBox="0 0 100 40"><use href="#koi"/></svg>
+    <svg class="pond__koi pond__koi--2" viewBox="0 0 100 40" style="--koi-body:#d4a72c;--koi-fin:#b88a1a;--koi-spot:#f6e7b0"><use href="#koi"/></svg>
+  </div>
+  <div class="footer container">
+    <div class="footer__grid">
+      <div>
+        <a class="brand" href="index.html"><span class="brand__mark"><img src="assets/img/logo-tmp.jpg" alt=""></span><span class="brand__name">Do Sushi Haus<small>Japanese Cuisine</small></span></a>
+        <p style="margin-top:var(--s-3);max-width:22rem">Sushi-Kunst und asiatische Küche in Schmalkalden.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li>Steingasse 10</li><li>98574 Schmalkalden</li><li><a href="tel:+4936836098662">03683 6098662</a></li></ul>
+      </div>
+      <div>
+        <h4>Öffnungszeiten</h4>
+        <ul><li>Mo, Mi–So</li><li>11:00–14:30 · 16:30–21:00</li><li>Dienstag Ruhetag</li></ul>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>© 2026 Do Sushi Haus · Informationen zu Zusatzstoffen und Allergenen erhalten Sie auf Anfrage.</span>
+      <nav aria-label="Rechtliches"><a href="impressum.html" aria-current="page">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
+    </div>
+  </div>
+</footer>
+
+<a class="call-fab" href="tel:+4936836098662" aria-label="Anrufen"><svg><use href="#i-phone"/></svg></a>
+
+<script src="js/main.js" defer></script>
+<script src="js/motion.js" defer></script>
+</body>
+</html>

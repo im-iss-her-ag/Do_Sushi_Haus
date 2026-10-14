@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Do Sushi Haus</title>
+<meta name="description" content="Frisch gerolltes Sushi, Signature Rolls und asiatische Küche im Do Sushi Haus, Steingasse 10, Schmalkalden. Täglich außer Dienstag geöffnet. Bestellung: 03683 6098662.">
+<meta name="theme-color" content="#111111">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta property="og:title" content="Do Sushi Haus · Schmalkalden">
+<meta property="og:description" content="Sushi-Kunst und asiatische Küche im Herzen von Schmalkalden.">
+<meta property="og:image" content="assets/img/dragon.jpg">
+<link rel="preload" href="fonts/alegreya-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/motion.css">
+<link rel="stylesheet" href="css/book.css">
+<link rel="stylesheet" href="css/about.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Do Sushi Haus",
+  "servesCuisine": ["Japanisch", "Sushi", "Asiatisch"],
+  "telephone": "+49 3683 6098662",
+  "address": { "@type": "PostalAddress", "streetAddress": "Steingasse 10", "postalCode": "98574", "addressLocality": "Schmalkalden", "addressCountry": "DE" },
+  "openingHoursSpecification": [
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "11:00", "closes": "14:30" },
+    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "16:30", "closes": "21:00" }
+  ],
+  "acceptsReservations": "True"
+}
+</script>
+</head>
+<body class="slate">
+
+<!-- ===== Shared SVG symbols ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter>
+  <filter id="brushy"><feTurbulence type="fractalNoise" baseFrequency=".04 .6" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></g></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+  <symbol id="i-fish" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 24c6-9 18-12 28-6l8-6v24l-8-6C24 36 12 33 6 24z"/><circle cx="14" cy="22" r="1.2" fill="currentColor"/><path d="M22 18c2 4 2 8 0 12"/></g></symbol>
+  <symbol id="i-hands" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 40 30 6M14 42 38 10"/><ellipse cx="26" cy="34" rx="12" ry="6"/><path d="M14 34c0 6 24 6 24 0"/></g></symbol>
+  <symbol id="i-leaf" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M10 38C8 20 20 8 40 8c0 20-12 32-30 30z"/><path d="M10 38 30 18"/></g></symbol>
+  <symbol id="lantern" viewBox="0 0 64 120">
+    <line x1="32" y1="0" x2="32" y2="14" stroke="#4a4a4a" stroke-width="1.5"/>
+    <ellipse class="lantern__glow" cx="32" cy="62" rx="30" ry="38" fill="#e07a2e"/>
+    <rect x="20" y="14" width="24" height="8" rx="2" fill="#151515"/>
+    <path d="M14 26 Q2 62 14 98 L50 98 Q62 62 50 26 Z" fill="#b8321f"/>
+    <path d="M14 26 Q2 62 14 98 L50 98 Q62 62 50 26 Z" fill="url(#lg)"/>
+    <g stroke="#7a1d12" stroke-width="1" fill="none" opacity=".7"><path d="M11 38H53M8 50H56M7 62H57M8 74H56M11 86H53"/></g>
+    <rect x="18" y="20" width="28" height="7" rx="2" fill="#151515"/>
+    <rect x="18" y="97" width="28" height="7" rx="2" fill="#151515"/>
+    <path d="M32 104V118" stroke="#d4a72c" stroke-width="1.5"/>
+    <defs><radialGradient id="lg" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#ffb35c" stop-opacity=".8"/><stop offset="1" stop-color="#7a1d12" stop-opacity="0"/></radialGradient></defs>
+  </symbol>
+  <symbol id="koi" viewBox="0 0 100 40">
+    <path d="M16 20C8 12 4 6 0 3c4 9 4 25 0 34 4-3 8-9 16-17z" fill="var(--koi-fin, #c62a1f)" opacity=".8"/>
+    <path d="M70 11c-4-9-12-11-14-9 4 4 8 8 10 10zM70 29c-4 9-12 11-14 9 4-4 8-8 10-10z" fill="var(--koi-fin, #c62a1f)" opacity=".7"/>
+    <path d="M98 20c-6-10-28-14-48-11-15 2-28 6-36 11 8 5 21 9 36 11 20 3 42-1 48-11z" fill="var(--koi-body, #c62a1f)"/>
+    <ellipse cx="80" cy="18" rx="9" ry="5" fill="var(--koi-spot, #f2ede3)" opacity=".9"/>
+    <ellipse cx="48" cy="22" rx="10" ry="4" fill="var(--koi-spot, #f2ede3)" opacity=".8"/>
+  </symbol>
+</svg>
+
+<!-- ===== Living background ===== -->
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__light ambient__light--a"></div>
+  <div class="ambient__light ambient__light--b"></div>
+  <div class="ambient__spot"></div>
+  <div class="ambient__vignette"></div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="site-header" id="header">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html" aria-label="Do Sushi Haus – Startseite">
+      <span class="brand__mark"><img src="assets/img/logo-tmp.jpg" alt=""></span>
+      <span class="brand__name">Do Sushi Haus<small>Japanese Cuisine</small></span>
+    </a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <ul>
+        <li><a href="index.html" aria-current="page">Startseite</a></li>
+        <li><a href="speisekarte.html">Speisekarte</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
+        <li><a href="datenschutz.html">Datenschutz</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--ghost header-call" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>03683 6098662</a>
+    <button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu" id="menuToggle"><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="index.html" aria-current="page">Startseite</a></li>
+    <li><a href="speisekarte.html">Speisekarte</a></li>
+    <li><a href="impressum.html">Impressum</a></li>
+    <li><a href="datenschutz.html">Datenschutz</a></li>
+  </ul>
+  <div>
+    <p class="label">Bestellung &amp; Reservierung</p>
+    <a class="btn btn--primary" href="tel:+4936836098662" style="width:100%"><svg><use href="#i-phone"/></svg>03683 6098662</a>
+  </div>
+</div>
+
+<main id="top">
+
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="hero__lanterns" aria-hidden="true" data-drop>
+      <span class="lantern" style="--size:46px"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
+      <span class="lantern" style="--size:46px;--delay:-2.2s"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
+    </div>
+    <div class="container hero__grid">
+      <div class="hero__text" data-stagger="110" data-hero-out>
+        <p class="label hero__eyebrow">Japanische Küche · Schmalkalden</p>
+        <h1 class="display" data-split>Frisch gerollt.<br><em>Mit Hingabe serviert.</em></h1>
+        <p class="lead">Sushi-Kunst und asiatische Küche im Herzen von Schmalkalden – handgemacht, Rolle für Rolle.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="speisekarte.html">Speisekarte ansehen</a>
+          <a class="btn btn--ghost" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>Jetzt bestellen</a>
+        </div>
+        <span class="open-badge" data-open-badge>Öffnungszeiten</span>
+      </div>
+      <div class="hero__visual reveal-ink">
+        <div class="hero__dish"><img src="assets/img/dragon.jpg" alt="Dragon Roll mit gegrilltem Aal auf schwarzem Teller" fetchpriority="high"></div>
+      </div>
+    </div>
+    <a class="hero__scroll label" href="#willkommen">Entdecken</a>
+  </section>
+
+  <!-- ===== Willkommen ===== -->
+  <section class="section welcome" id="willkommen">
+    <div class="container welcome__grid">
+      <div class="welcome__img reveal-ink">
+        <img src="assets/img/nigiri.jpg" alt="Nigiri-Auswahl mit Lachs, Aal, Thunfisch und Garnele" loading="lazy">
+        <svg class="ring-draw" viewBox="0 0 100 100" aria-hidden="true" filter="url(#brushy)" data-rotate="0.03"><path pathLength="1" d="M50 2A48 48 0 1 0 96 38" stroke="#d4a72c" stroke-width=".6"/></svg>
+      </div>
+      <div data-stagger>
+        <p class="label">Willkommen</p>
+        <h2 class="h2">Ein Ort für ruhigen Genuss</h2>
+        <p>Im Do Sushi Haus treffen japanische Handwerkskunst und herzliche Gastfreundschaft aufeinander. Jede Rolle wird frisch für Sie zubereitet – mit ausgewähltem Fisch, knackigem Gemüse und hausgemachten Saucen.</p>
+        <p class="muted">Ob Mittagspause, Abend zu zweit oder Sushi-Platte für die ganze Familie: Nehmen Sie Platz, wir kümmern uns um den Rest.</p>
+        <svg class="brush" viewBox="0 0 320 24" aria-hidden="true" style="margin-inline:0"><path pathLength="1" stroke-width="2.5" d="M6 16C60 6 110 20 160 12S260 4 314 10"/></svg>
+                <ul class="facts" data-stagger="140">
+          <li class="fact"><svg><use href="#i-fish"/></svg><div><b>Schottischer Lachs</b><span>Ausgewählter Fisch, täglich frisch verarbeitet.</span></div></li>
+          <li class="fact"><svg><use href="#i-hands"/></svg><div><b>Von Hand gerollt</b><span>Jede Rolle entsteht erst bei Ihrer Bestellung.</span></div></li>
+          <li class="fact"><svg><use href="#i-leaf"/></svg><div><b>Auch ohne Fisch</b><span>Zum Beispiel Love Veggie, Forest Veggie oder Tofu.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Über uns (merged) ===== -->
+  <section class="window ab-band" id="ueber-uns">
+    <div class="window__bg" aria-hidden="true"><img src="assets/img/bg/lanterns-row-hd.jpg" alt=""></div>
+    <div class="container">
+      <span class="label">Über uns</span>
+      <p data-scrub-text>Ein Stück Japan mitten in Thüringen: <em>frischer Fisch</em>, warmer Reis und ruhige Hände – jeden Tag, Rolle für Rolle.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <section class="chapter chapter--flip">
+      <div class="chapter__media reveal"><img class="m1" src="assets/img/sushi-cover.jpg" alt="Sushi-Auswahl auf Schiefer" loading="lazy" style="object-position:50% 75%"><img class="m2" src="assets/img/dish/p1.webp" alt="" loading="lazy"></div>
+      <div data-stagger>
+        <span class="chapter__num">01</span>
+        <p class="label">Die Sushi-Bar</p>
+        <h2>Präzision, <em>ohne Eile</em></h2>
+        <p>Schottischer Lachs, Thunfisch, flambierter Aal: Geschnitten und gerollt wird erst, wenn Ihre Bestellung kommt. Unsere Signature Rolls – vom Crispy Tiger bis zum Trüffel Sake – sind kleine Kompositionen mit hausgemachten Saucen.</p>
+        <p>Und wer sich nicht entscheiden mag, nennt einfach einen Preis: Beim <em>Sushi Master’s Choice</em> stellen wir eine Auswahl ganz nach Gefühl zusammen.</p>
+      </div>
+    </section>
+
+    <section class="chapter">
+      <div class="chapter__media reveal steam-wrap"><img class="m1" src="assets/img/pho.jpg" alt="Pho mit Rinderbrühe" loading="lazy"><img class="m2" src="assets/img/dish/h7.webp" alt="" loading="lazy"><span class="steam" aria-hidden="true" style="left:40%;bottom:50%"><span></span><span></span><span></span></span></div>
+      <div data-stagger>
+        <span class="chapter__num">02</span>
+        <p class="label">Asiatische Küche</p>
+        <h2>Mehr als <em>Sushi</em></h2>
+        <p>Neben Sushi stehen bei uns auch asiatische Gerichte auf der Karte: Pho mit Zimt, Sternanis und Kardamom, Udon-Nudeln, Ente, Tofu und Curry mit Wok-Gemüse und Jasminreis.</p>
+      </div>
+    </section>
+  </div>
+
+  <section class="spread" data-spread aria-label="Eindrücke aus unserer Küche">
+    <div class="spread__stack"><figure class="spread__item" data-x="-34" data-y="-150" data-r="-9" data-s="1" style="z-index:1"><img src="assets/img/dish/p2.webp" alt="" loading="lazy"></figure><figure class="spread__item spread__item--sq" data-x="-16" data-y="170" data-r="6" data-s="0.9" style="z-index:2"><img src="assets/img/dish/n1.webp" alt="" loading="lazy"></figure><figure class="spread__item" data-x="33" data-y="-140" data-r="8" data-s="1" style="z-index:3"><img src="assets/img/dish/h1.webp" alt="" loading="lazy"></figure><figure class="spread__item spread__item--sq" data-x="17" data-y="175" data-r="-5" data-s="0.92" style="z-index:4"><img src="assets/img/dish/s2.webp" alt="" loading="lazy"></figure><figure class="spread__item spread__item--sq" data-x="-40" data-y="150" data-r="4" data-s="0.8" style="z-index:5"><img src="assets/img/dish/p11.webp" alt="" loading="lazy"></figure><figure class="spread__item" data-x="41" data-y="140" data-r="-7" data-s="0.85" style="z-index:6"><img src="assets/img/dish/menu6.webp" alt="" loading="lazy"></figure><figure class="spread__item spread__item--sq" data-x="2" data-y="-220" data-r="-3" data-s="0.78" style="z-index:7"><img src="assets/img/dish/a1.webp" alt="" loading="lazy"></figure><figure class="spread__item spread__item--sq" data-x="0" data-y="220" data-r="3" data-s="0.8" style="z-index:8"><img src="assets/img/dish/c7.webp" alt="" loading="lazy"></figure></div>
+    <div class="spread__title"><h2 data-scrub-text>Aus einer Küche, zwei Welten</h2></div>
+  </section>
+
+  <section class="window ab-band">
+    <div class="window__bg" aria-hidden="true"><img src="assets/img/bg/lanterns-alley-hd.jpg" alt="" style="object-position:50% 30%"></div>
+    <div class="container">
+      <span class="label">Gastfreundschaft</span>
+      <p data-scrub-text>Sie sollen sich fühlen wie <em>bei Freunden</em> – ob für eine schnelle Mittagspause oder einen langen Abend.</p>
+    </div>
+  </section>
+
+  <!-- ===== Signature belt ===== -->
+  <section class="section waves" id="signature" style="padding-bottom:var(--s-6)">
+    <div class="container section-head">
+      <div class="title-frame" data-frame>
+        <h2 class="title-frame__box">Aus der Sushi-Bar<span class="title-frame__sub">FRISCH GEROLLT</span></h2>
+        <p class="title-frame__desc">Nigiri, Sashimi, Maki, Ura-Maki, Crunchy und Signature Rolls – mit Lachs, Thunfisch, Aal und Garnelen, oder mit Avocado und Mango.</p>
+      </div>
+    </div>
+    <div class="belt reveal" id="belt" aria-roledescription="Karussell" aria-label="Gerichte aus unserer Sushi-Bar">
+      <div class="belt__track" id="beltTrack">
+        <article class="plate"><div class="plate__dish"><img src="assets/img/belt/dragon-roll.jpg" alt="Dragon Roll" loading="lazy" draggable="false"></div><p class="plate__kicker">Signature Roll</p><h3 class="plate__name">Dragon Roll</h3><p class="plate__meta">Pankogarnelen · Avocado · Tobiko</p><p class="plate__price">14,90 €</p></article>
+        <article class="plate" style="--plate:var(--koi)"><div class="plate__dish"><img src="assets/img/belt/tuna-sashimi.jpg" alt="Tuna Sashimi" loading="lazy" draggable="false"></div><p class="plate__kicker">Sashimi · 8 Stk.</p><h3 class="plate__name">Tuna Sashimi</h3><p class="plate__meta">Thunfisch · Seetang</p><p class="plate__price">15,90 €</p></article>
+        <article class="plate" style="--plate:#8a8a8a"><div class="plate__dish"><img src="assets/img/belt/crunchy-salmon.jpg" alt="Crunchy Salmon" loading="lazy" draggable="false"></div><p class="plate__kicker">Crunchy Roll · 6 Stk.</p><h3 class="plate__name">Crunchy Salmon</h3><p class="plate__meta">Lachs · Avocado · Frischkäse</p><p class="plate__price">10,50 €</p></article>
+        <article class="plate" style="--plate:var(--koi)"><div class="plate__dish"><img src="assets/img/belt/anago-nigiri.jpg" alt="Anago Nigiri" loading="lazy" draggable="false"></div><p class="plate__kicker">Nigiri · 2 Stk.</p><h3 class="plate__name">Anago Nigiri</h3><p class="plate__meta">Flambierter Aal · Teriyaki · Sesam</p><p class="plate__price">6,00 €</p></article>
+        <article class="plate"><div class="plate__dish"><img src="assets/img/belt/forest-veggie.jpg" alt="Forest Veggie" loading="lazy" draggable="false"></div><p class="plate__kicker">Signature Roll</p><h3 class="plate__name">Forest Veggie</h3><p class="plate__meta">Minze · Koriander · Seetangsalat</p><p class="plate__price">14,90 €</p></article>
+        <article class="plate" style="--plate:#8a8a8a"><div class="plate__dish"><img src="assets/img/belt/fresh-bowl.jpg" alt="Lachs flambiert" loading="lazy" draggable="false"></div><p class="plate__kicker">Fresh Bowl</p><h3 class="plate__name">Lachs flambiert</h3><p class="plate__meta">Sushi-Reis · Avocado · Edamame</p><p class="plate__price">13,90 €</p></article>
+        <article class="plate"><div class="plate__dish"><img src="assets/img/belt/tuna-maki.jpg" alt="Tuna Maki" loading="lazy" draggable="false"></div><p class="plate__kicker">Hoso-Maki · 8 Stk.</p><h3 class="plate__name">Tuna Maki</h3><p class="plate__meta">Thunfisch</p><p class="plate__price">5,90 €</p></article>
+        <article class="plate" style="--plate:#8a8a8a"><div class="plate__dish"><img src="assets/img/belt/ebi-temptation.jpg" alt="Ebi Temptation" loading="lazy" draggable="false"></div><p class="plate__kicker">Vorspeise</p><h3 class="plate__name">Ebi Temptation</h3><p class="plate__meta">Panko-Großgarnelen auf Salat</p><p class="plate__price">8,00 €</p></article>
+        <article class="plate" style="--plate:var(--koi)"><div class="plate__dish"><img src="assets/img/belt/sake-sashimi.jpg" alt="Sake Sashimi" loading="lazy" draggable="false"></div><p class="plate__kicker">Sashimi · 8 Stk.</p><h3 class="plate__name">Sake Sashimi</h3><p class="plate__meta">Schottischer Lachs · Seetang</p><p class="plate__price">14,90 €</p></article>
+        <article class="plate" style="--plate:#8a8a8a"><div class="plate__dish"><img src="assets/img/belt/special-crunchy.jpg" alt="Special Crunchy" loading="lazy" draggable="false"></div><p class="plate__kicker">Crunchy Roll · 6 Stk.</p><h3 class="plate__name">Special Crunchy</h3><p class="plate__meta">Surimi · Lachs · Thunfisch · Garnelen</p><p class="plate__price">15,90 €</p></article>
+        <article class="plate" style="--plate:var(--koi)"><div class="plate__dish"><img src="assets/img/belt/ebi-nigiri.jpg" alt="Ebi Nigiri" loading="lazy" draggable="false"></div><p class="plate__kicker">Nigiri · 2 Stk.</p><h3 class="plate__name">Ebi Nigiri</h3><p class="plate__meta">Garnelen</p><p class="plate__price">5,00 €</p></article>
+        <article class="plate"><div class="plate__dish"><img src="assets/img/belt/alaska-salmon.jpg" alt="Alaska Salmon" loading="lazy" draggable="false"></div><p class="plate__kicker">Ura-Maki · 8 Stk.</p><h3 class="plate__name">Alaska Salmon</h3><p class="plate__meta">Lachs · Avocado · Sesam · Tobiko</p><p class="plate__price">9,50 €</p></article>
+        <article class="plate" style="--plate:#8a8a8a"><div class="plate__dish"><img src="assets/img/belt/wakame-salat.jpg" alt="Wakame Salat" loading="lazy" draggable="false"></div><p class="plate__kicker">Vorspeise</p><h3 class="plate__name">Wakame Salat</h3><p class="plate__meta">Seetang · Avocado · Rettich · Sesam</p><p class="plate__price">5,50 €</p></article>
+        <article class="plate" style="--plate:var(--koi)"><div class="plate__dish"><img src="assets/img/belt/tuna-nigiri.jpg" alt="Tuna Nigiri" loading="lazy" draggable="false"></div><p class="plate__kicker">Nigiri · 2 Stk.</p><h3 class="plate__name">Tuna Nigiri</h3><p class="plate__meta">Thunfisch</p><p class="plate__price">5,50 €</p></article>
+        <article class="plate"><div class="plate__dish"><img src="assets/img/belt/mango-maki.jpg" alt="Mango Maki" loading="lazy" draggable="false"></div><p class="plate__kicker">Hoso-Maki · 8 Stk.</p><h3 class="plate__name">Mango Maki</h3><p class="plate__meta">Mango</p><p class="plate__price">5,00 €</p></article>
+        <article class="plate" style="--plate:var(--koi)"><div class="plate__dish"><img src="assets/img/belt/flambeed-sake.jpg" alt="Nigiri-Auswahl" loading="lazy" draggable="false"></div><p class="plate__kicker">Nigiri · 2 Stk.</p><h3 class="plate__name">Nigiri-Auswahl</h3><p class="plate__meta">Lachs · Aal · Thunfisch · Ebi</p><p class="plate__price">ab 4,70 €</p></article>
+        <article class="plate"><div class="plate__dish"><img src="assets/img/belt/masters-choice.jpg" alt="Master’s Choice" loading="lazy" draggable="false"></div><p class="plate__kicker">Sushi Menü 7</p><h3 class="plate__name">Master’s Choice</h3><p class="plate__meta">Ihr Wunschpreis – unser Meister kreiert</p><p class="plate__price">auf Anfrage</p></article>
+      </div>
+      <button class="belt__nav belt__nav--prev" type="button" aria-label="Vorheriges Gericht" data-belt="-1">‹</button>
+      <button class="belt__nav belt__nav--next" type="button" aria-label="Nächstes Gericht" data-belt="1">›</button>
+    </div>
+    <p class="signature__more"><a class="btn btn--ghost" href="speisekarte.html">Ganze Speisekarte</a></p>
+  </section>
+
+  <!-- ===== Two worlds ===== -->
+  <section class="section" id="welten">
+    <div class="container">
+      <div class="section-head">
+        <div class="title-frame" data-frame>
+          <h2 class="title-frame__box">Zwei Welten<span class="title-frame__sub">EINE KÜCHE</span></h2>
+          <p class="title-frame__desc">Sushi und asiatische Gerichte aus einer Küche.</p>
+        </div>
+      </div>
+      <div class="worlds" data-stagger="160">
+        <a class="world" href="speisekarte.html#sushi">
+          <span class="world__img"><img src="assets/img/crunchy.jpg" alt="" loading="lazy" style="object-position:40% 60%" data-speed="0.12"></span>
+          <span class="label">Sushi-Bar</span>
+          <h3>Sushi</h3>
+          <p>Von klassischen Hoso-Maki über zarte Nigiri und Sashimi bis zu den Signature Rolls unseres Chefs.</p>
+          <ul class="chips"><li>Maki</li><li>Nigiri</li><li>Sashimi</li><li>Ura-Maki</li><li>Crunchy</li><li>Bowls</li></ul>
+          <span class="btn btn--ghost">Sushi-Karte</span>
+        </a>
+        <a class="world world--asia" href="speisekarte.html#asia">
+          <span class="world__img steam-wrap"><img src="assets/img/pho.jpg" alt="" loading="lazy" style="object-position:40% 30%" data-speed="0.12"><span class="steam" aria-hidden="true"><span></span><span></span><span></span></span></span>
+          <span class="label">Asiatische Küche</span>
+          <h3>Asia</h3>
+          <p>Pho, Udon-Nudeln, Ente, Tofu und Curry mit Wok-Gemüse und Jasminreis.</p>
+          <ul class="chips"><li>Pho</li><li>Udon</li><li>Frühlingsrollen</li><li>Ente</li><li>Curry</li></ul>
+          <span class="btn btn--ghost">Asia-Karte</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- ===== Dine-in & takeaway ===== -->
+  <section class="section" id="genuss" style="padding-top:0">
+    <div class="container">
+      <div class="section-head">
+        <div class="title-frame" data-frame>
+          <h2 class="title-frame__box">Wie Sie möchten<span class="title-frame__sub">EINE KARTE · GLEICHE PREISE</span></h2>
+          <p class="title-frame__desc">Ob am Tisch oder zu Hause – alles aus derselben Karte, frisch für Sie zubereitet.</p>
+        </div>
+      </div>
+      <div class="ways" data-stagger="160">
+        <article class="way">
+          <svg class="way__icon" viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 30h32M12 30c0-7 5-12 12-12s12 5 12 12"/><path d="M24 18v-4M6 34h36"/><path d="M34 8 40 40"/><path d="M38 8 44 40"/></g></svg>
+          <h3>Im Restaurant</h3>
+          <p>Nehmen Sie Platz – wir servieren frisch vom Brett an Ihren Tisch.</p>
+          <ol class="steps"><li>Anrufen &amp; Tisch reservieren</li><li>Ankommen &amp; Platz nehmen</li><li>Genießen – wir kümmern uns um den Rest</li></ol>
+          <a class="btn btn--primary" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>Tisch reservieren</a>
+        </article>
+        <article class="way">
+          <svg class="way__icon" viewBox="0 0 48 48" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M10 16h28l-3 26H13z"/><path d="M17 16c0-5 3-8 7-8s7 3 7 8"/><path d="M18 28h12"/></g></svg>
+          <h3>Zum Mitnehmen</h3>
+          <p>Telefonisch bestellen, abholen – sorgfältig verpackt und zum gleichen Preis.</p>
+          <ol class="steps"><li>Gerichte in der Karte auswählen</li><li>Anrufen &amp; Abholzeit nennen</li><li>In der Steingasse 10 abholen</li></ol>
+          <a class="btn btn--ghost" href="speisekarte.html">Zur Speisekarte</a>
+        </article>
+      </div>
+    </div>
+  </section>
+  <!-- ===== Flip-book menu ===== -->
+  <section class="section" id="karte">
+    <div class="container">
+      <div class="section-head">
+        <div class="title-frame" data-frame>
+          <h2 class="title-frame__box">Speisekarte<span class="title-frame__sub">18 SEITEN</span></h2>
+          <p class="title-frame__desc">Unsere gedruckte Speisekarte – zum Durchblättern.</p>
+        </div>
+      </div>
+      <div class="book reveal" data-book data-pages="18" data-src="assets/book/p{n}.webp"></div>
+    </div>
+  </section>
+  <!-- ===== Sushi menus ===== -->
+  <section class="section waves" id="menus">
+    <div class="container">
+      <div class="section-head">
+        <div class="title-frame" data-frame>
+          <h2 class="title-frame__box">Sushi Menü<span class="title-frame__sub">ZUM TEILEN</span></h2>
+          <p class="title-frame__desc">Zusammengestellt für zwei, für Freunde, für die ganze Familie.</p>
+        </div>
+      </div>
+      <div class="sets" data-stagger="130">
+        <article class="set-card"><p class="label">Menü 5</p><p class="set-card__name">Tiger Menü</p><p class="set-card__price">48,00 €</p>
+          <ul style="margin-top:var(--s-3)"><li>8 Stk. Crispy Tiger Rolls</li><li>8 Stk. Lachs-Maki · 6 Stk. Crunchy Salmon</li><li>2 Lachs- · 2 Thunfisch- · 2 Ebi-Nigiri</li><li>8 Stk. Avocado-Maki</li></ul></article>
+        <article class="set-card"><span class="seal">Chef’s<br>Wahl</span><p class="label">Menü 6</p><p class="set-card__name">Sushi Symphony</p><p class="set-card__price">76,00 €</p>
+          <ul style="margin-top:var(--s-3)"><li>Seetangsalat · 8 Stk. Maki Avocado</li><li>2 Nigiri Lachs · 2 Tuna-Nigiri</li><li>4 Sashimi Lachs · 4 Sashimi Thunfisch</li><li>8 Trüffel Sake · 8 Niji Rainbow</li><li>8 Ebi Cali · 6 Special Crunchy</li></ul></article>
+        <article class="set-card"><p class="label">Menü 7</p><p class="set-card__name">Sushi Master’s Choice</p><p class="set-card__price">Ihr Wunschpreis</p>
+          <ul style="margin-top:var(--s-3)"><li>Sie nennen uns Ihren Wunschpreis – unser Sushi-Meister kreiert daraus Ihre persönliche Auswahl. Lassen Sie sich überraschen.</li></ul>
+          <a class="btn btn--ghost" href="tel:+4936836098662" style="margin-top:var(--s-4)"><svg><use href="#i-phone"/></svg>Anfragen</a></article>
+      </div>
+      <p class="sets__note reveal">Weitere Menüs ab 13,50 € in der <a class="gold" href="speisekarte.html#menu">Speisekarte</a>.</p>
+    </div>
+  </section>
+
+  <!-- ===== Visit ===== -->
+  <section class="section" id="besuch">
+    <div class="container">
+      <div class="section-head">
+        <div class="title-frame" data-frame>
+          <h2 class="title-frame__box">Besuchen Sie uns<span class="title-frame__sub">STEINGASSE 10</span></h2>
+        </div>
+      </div>
+      <div class="visit" data-stagger="150">
+        <div class="visit__card">
+          <div class="visit__head">
+            <h3>Öffnungszeiten</h3>
+            <span class="open-badge" data-open-badge>…</span>
+          </div>
+          <div class="timeline" data-timeline aria-label="Öffnungszeiten als Zeitleiste"></div>
+          <div class="visit__legend"><span><i class="lg lg--open"></i>Geöffnet</span><span><i class="lg lg--now"></i>Jetzt</span><span><i class="lg lg--closed"></i>Ruhetag</span></div>
+          <p class="muted visit__note">An Feiertagen geöffnet – auch dienstags.</p>
+        </div>
+        <div class="visit__map">
+          <div class="ph map-ph" id="map" data-lat="50.7205" data-lng="10.4466" data-label="Do Sushi Haus · Steingasse 10" data-query="Do Sushi Haus, Steingasse 10, 98574 Schmalkalden">
+            <div>
+              <svg style="margin:0 auto .5rem"><use href="#i-pin"/></svg>
+              <p style="color:var(--ink);margin:0">Steingasse 10 · 98574 Schmalkalden</p>
+              <p>Beim Laden der Karte werden Daten von Google Maps abgerufen (<a class="gold" href="datenschutz.html">Datenschutz</a>).</p>
+              <button class="btn btn--ghost" type="button" data-load-map>Karte anzeigen</button>
+              <label class="map-remember"><input type="checkbox" data-map-remember> Karte künftig automatisch laden</label>
+            </div>
+          </div>
+          <address class="visit__addr">
+            <span><b>Do Sushi Haus</b><br>Steingasse 10, 98574 Schmalkalden</span>
+            <span class="visit__actions">
+              <a class="btn btn--primary" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>03683 6098662</a>
+              <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=Steingasse+10,+98574+Schmalkalden" target="_blank" rel="noopener">Route planen</a>
+            </span>
+          </address>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Instagram (placeholder) ===== -->
+  <section class="section" style="padding-top:0">
+    <div class="container">
+      <div class="insta-head reveal">
+        <div><p class="label">Instagram</p><h2 class="h3">Frisch aus unserer Küche</h2></div>
+        <span class="muted" style="font-size:var(--fs-small)">Bald verfügbar</span>
+      </div>
+      <div class="insta-grid" data-stagger="70">
+        <div class="ph"><svg><use href="#i-insta"/></svg></div><div class="ph"><svg><use href="#i-insta"/></svg></div><div class="ph"><svg><use href="#i-insta"/></svg></div>
+        <div class="ph"><svg><use href="#i-insta"/></svg></div><div class="ph"><svg><use href="#i-insta"/></svg></div><div class="ph"><svg><use href="#i-insta"/></svg></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Lantern alley CTA ===== -->
+  <section class="alley" data-glow>
+    <div class="alley__bg"><img src="assets/img/laternen.jpg" alt="" loading="lazy" data-speed="0.18"></div>
+    <div class="alley__string" aria-hidden="true" data-drop>
+      <span class="lantern" style="--size:40px"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
+      <span class="lantern" style="--size:52px;--delay:-1s"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
+      <span class="lantern" style="--size:44px;--delay:-2.4s"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
+      <span class="lantern" style="--size:52px;--delay:-.4s"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
+      <span class="lantern" style="--size:40px;--delay:-3.1s"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
+    </div>
+    <div class="container" data-stagger="120">
+      <p class="label">Abholung &amp; Reservierung</p>
+      <h2 style="margin-top:var(--s-3)" data-split>Sushi <span class="amp">&amp;</span> More</h2>
+      <p class="lead">Rufen Sie uns an – wir rollen frisch für Sie, ob zum Mitnehmen oder für Ihren Tisch.</p>
+      <a class="alley__phone" href="tel:+4936836098662">03683 6098662</a>
+      <a class="btn btn--primary" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>Jetzt anrufen</a>
+    </div>
+  </section>
+</main>
+
+<!-- ===== Footer: koi pond ===== -->
+<footer class="pond">
+  <div class="pond__water" id="pond" aria-hidden="true">
+    <svg class="pond__koi pond__koi--1" viewBox="0 0 100 40"><use href="#koi"/></svg>
+    <svg class="pond__koi pond__koi--2" viewBox="0 0 100 40" style="--koi-body:#d4a72c;--koi-fin:#b88a1a;--koi-spot:#f6e7b0"><use href="#koi"/></svg>
+  </div>
+  <div class="footer container">
+    <div class="footer__grid">
+      <div>
+        <a class="brand" href="index.html"><span class="brand__mark"><img src="assets/img/logo-tmp.jpg" alt=""></span><span class="brand__name">Do Sushi Haus<small>Japanese Cuisine</small></span></a>
+        <p style="margin-top:var(--s-3);max-width:22rem">Sushi-Kunst und asiatische Küche in Schmalkalden.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li>Steingasse 10</li><li>98574 Schmalkalden</li><li><a href="tel:+4936836098662">03683 6098662</a></li></ul>
+      </div>
+      <div>
+        <h4>Öffnungszeiten</h4>
+        <ul><li>Mo, Mi–So</li><li>11:00–14:30 · 16:30–21:00</li><li>Dienstag Ruhetag</li></ul>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>© 2026 Do Sushi Haus · Informationen zu Zusatzstoffen und Allergenen erhalten Sie auf Anfrage.</span>
+      <nav aria-label="Rechtliches"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
+    </div>
+  </div>
+</footer>
+
+<a class="call-fab" href="tel:+4936836098662" aria-label="Anrufen"><svg><use href="#i-phone"/></svg></a>
+
+<script src="js/main.js" defer></script>
+<script src="js/book.js" defer></script>
+<script src="js/motion.js" defer></script>
+</body>
+</html>

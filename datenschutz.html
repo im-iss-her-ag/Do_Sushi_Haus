@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Datenschutz – Do Sushi Haus</title>
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#111111">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/motion.css">
+<style>
+  .legal { padding-bottom: var(--section-y); }
+  .legal__body { background: rgba(26,26,26,.7); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.5rem, 1rem + 3vw, 3.5rem); }
+  .legal h2 { font-size: 1.35rem; color: var(--gold); margin: var(--s-6) 0 var(--s-2); }
+  .legal h2:first-child { margin-top: 0; }
+  .legal p, .legal li { color: var(--ink); opacity: .88; }
+  .legal ul { padding-left: 1.2em; margin: 0 0 var(--s-3); }
+  .legal a { color: var(--gold); }
+  .ph-mark { background: rgba(198,42,31,.18); color: #ff9d8f; padding: 0 .3em; border-radius: 2px; }
+</style>
+</head>
+<body class="slate">
+<!-- ===== Shared SVG symbols ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.5"/></filter>
+  <filter id="brushy"><feTurbulence type="fractalNoise" baseFrequency=".04 .6" numOctaves="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="3"/></filter>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></g></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+  <symbol id="i-fish" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 24c6-9 18-12 28-6l8-6v24l-8-6C24 36 12 33 6 24z"/><circle cx="14" cy="22" r="1.2" fill="currentColor"/><path d="M22 18c2 4 2 8 0 12"/></g></symbol>
+  <symbol id="i-hands" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 40 30 6M14 42 38 10"/><ellipse cx="26" cy="34" rx="12" ry="6"/><path d="M14 34c0 6 24 6 24 0"/></g></symbol>
+  <symbol id="i-leaf" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M10 38C8 20 20 8 40 8c0 20-12 32-30 30z"/><path d="M10 38 30 18"/></g></symbol>
+  <symbol id="lantern" viewBox="0 0 64 120">
+    <line x1="32" y1="0" x2="32" y2="14" stroke="#4a4a4a" stroke-width="1.5"/>
+    <ellipse class="lantern__glow" cx="32" cy="62" rx="30" ry="38" fill="#e07a2e"/>
+    <rect x="20" y="14" width="24" height="8" rx="2" fill="#151515"/>
+    <path d="M14 26 Q2 62 14 98 L50 98 Q62 62 50 26 Z" fill="#b8321f"/>
+    <path d="M14 26 Q2 62 14 98 L50 98 Q62 62 50 26 Z" fill="url(#lg)"/>
+    <g stroke="#7a1d12" stroke-width="1" fill="none" opacity=".7"><path d="M11 38H53M8 50H56M7 62H57M8 74H56M11 86H53"/></g>
+    <rect x="18" y="20" width="28" height="7" rx="2" fill="#151515"/>
+    <rect x="18" y="97" width="28" height="7" rx="2" fill="#151515"/>
+    <path d="M32 104V118" stroke="#d4a72c" stroke-width="1.5"/>
+    <defs><radialGradient id="lg" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#ffb35c" stop-opacity=".8"/><stop offset="1" stop-color="#7a1d12" stop-opacity="0"/></radialGradient></defs>
+  </symbol>
+  <symbol id="koi" viewBox="0 0 100 40">
+    <path d="M16 20C8 12 4 6 0 3c4 9 4 25 0 34 4-3 8-9 16-17z" fill="var(--koi-fin, #c62a1f)" opacity=".8"/>
+    <path d="M70 11c-4-9-12-11-14-9 4 4 8 8 10 10zM70 29c-4 9-12 11-14 9 4-4 8-8 10-10z" fill="var(--koi-fin, #c62a1f)" opacity=".7"/>
+    <path d="M98 20c-6-10-28-14-48-11-15 2-28 6-36 11 8 5 21 9 36 11 20 3 42-1 48-11z" fill="var(--koi-body, #c62a1f)"/>
+    <ellipse cx="80" cy="18" rx="9" ry="5" fill="var(--koi-spot, #f2ede3)" opacity=".9"/>
+    <ellipse cx="48" cy="22" rx="10" ry="4" fill="var(--koi-spot, #f2ede3)" opacity=".8"/>
+  </symbol>
+</svg>
+
+<!-- ===== Living background ===== -->
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__light ambient__light--a"></div>
+  <div class="ambient__light ambient__light--b"></div>
+  <div class="ambient__spot"></div>
+  <div class="ambient__vignette"></div>
+</div>
+
+
+<div class="ambient" aria-hidden="true"><div class="ambient__light ambient__light--a"></div><div class="ambient__light ambient__light--b"></div><div class="ambient__spot"></div><div class="ambient__vignette"></div></div>
+<!-- ===== Header ===== -->
+<header class="site-header" id="header">
+  <div class="container site-header__inner">
+    <a class="brand" href="index.html" aria-label="Do Sushi Haus – Startseite">
+      <span class="brand__mark"><img src="assets/img/logo-tmp.jpg" alt=""></span>
+      <span class="brand__name">Do Sushi Haus<small>Japanese Cuisine</small></span>
+    </a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <ul>
+        <li><a href="index.html">Startseite</a></li>
+        <li><a href="speisekarte.html">Speisekarte</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
+        <li><a href="datenschutz.html" aria-current="page">Datenschutz</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--ghost header-call" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>03683 6098662</a>
+    <button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileMenu" id="menuToggle"><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="index.html">Startseite</a></li>
+    <li><a href="speisekarte.html">Speisekarte</a></li>
+    <li><a href="impressum.html">Impressum</a></li>
+    <li><a href="datenschutz.html" aria-current="page">Datenschutz</a></li>
+  </ul>
+  <div>
+    <p class="label">Bestellung &amp; Reservierung</p>
+    <a class="btn btn--primary" href="tel:+4936836098662" style="width:100%"><svg><use href="#i-phone"/></svg>03683 6098662</a>
+  </div>
+</div>
+
+
+<main>
+  <section class="page-hero">
+    <div class="container" data-stagger>
+      <p class="label hero__eyebrow">Rechtliches</p>
+      <h1 class="display" data-split>Datenschutz</h1>
+    </div>
+  </section>
+  <section class="legal">
+    <div class="container measure"><div class="legal__body reveal">
+<h2>1. Verantwortlicher</h2>
+<p>Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br>Do Sushi Haus, Inhaber: <mark class="ph-mark">[Vor- und Nachname]</mark><br>Steingasse 10, 98574 Schmalkalden<br>Telefon: 03683 6098662 · E-Mail: <mark class="ph-mark">[E-Mail-Adresse]</mark></p>
+
+<h2>2. Allgemeines</h2>
+<p>Der Schutz Ihrer persönlichen Daten ist uns wichtig. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften (DSGVO, BDSG, TDDDG) sowie dieser Datenschutzerklärung. Diese Website ist bewusst schlank gehalten: Wir setzen keine Analyse- oder Marketing-Tools ein und binden keine Schriftarten von Drittanbietern ein.</p>
+
+<h2>3. Hosting und Server-Logfiles</h2>
+<p>Diese Website wird bei <mark class="ph-mark">[Name und Anschrift des Hosting-Anbieters]</mark> gehostet. Beim Aufruf der Seiten werden automatisch Informationen in sogenannten Server-Logfiles gespeichert, die Ihr Browser übermittelt:</p>
+<ul><li>Browsertyp und Browserversion</li><li>verwendetes Betriebssystem</li><li>Referrer-URL</li><li>Hostname bzw. IP-Adresse des zugreifenden Rechners</li><li>Uhrzeit der Serveranfrage</li></ul>
+<p>Die Erfassung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Wir haben ein berechtigtes Interesse an der technisch fehlerfreien Darstellung und Sicherheit unserer Website. Eine Zusammenführung mit anderen Datenquellen findet nicht statt. Die Daten werden nach <mark class="ph-mark">[Speicherdauer, z. B. 7 Tagen]</mark> gelöscht.</p>
+
+<h2>4. SSL-/TLS-Verschlüsselung</h2>
+<p>Diese Seite nutzt aus Sicherheitsgründen eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie an „https://“ und dem Schloss-Symbol in der Adresszeile Ihres Browsers.</p>
+
+<h2>5. Cookies und lokale Speicherung</h2>
+<p>Diese Website setzt keine Cookies. Damit die Begrüßungsanimation pro Besuch nur einmal erscheint, wird im Sitzungsspeicher Ihres Browsers (Session Storage) ein technischer Vermerk abgelegt. Er enthält keine personenbezogenen Daten und wird beim Schließen des Browserfensters automatisch gelöscht (§ 25 Abs. 2 Nr. 2 TDDDG).</p>
+
+<h2>6. Kontaktaufnahme per Telefon oder E-Mail</h2>
+<p>Wenn Sie uns telefonisch oder per E-Mail kontaktieren, verarbeiten wir Ihre Angaben (z. B. Name, Telefonnummer, Bestellung) ausschließlich zur Bearbeitung Ihrer Anfrage bzw. Bestellung. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO. Die Daten werden gelöscht, sobald sie für den Zweck nicht mehr erforderlich sind und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
+
+<h2>7. Kartendarstellung (Google Maps)</h2>
+<p>Auf unserer Startseite können Sie eine interaktive Karte von Google Maps anzeigen lassen. Anbieter ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland. Die Karte wird <strong>erst geladen, nachdem Sie auf „Karte anzeigen“ klicken</strong>. Erst dann werden u. a. Ihre IP-Adresse und ggf. Cookies an Google übertragen, ggf. auch an Server der Google LLC in den USA. Google ist nach dem EU-US Data Privacy Framework zertifiziert. Rechtsgrundlage ist Ihre Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Weitere Informationen finden Sie in der Datenschutzerklärung von Google: <a class="gold" href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>. Wenn Sie „Karte künftig automatisch laden“ wählen, speichern wir diese Entscheidung im lokalen Speicher Ihres Browsers (Local Storage); Sie können sie jederzeit durch Löschen der Website-Daten widerrufen.</p>
+<p>Der Button „Route planen“ öffnet Google Maps in einem neuen Fenster; dabei gelten die Datenschutzbestimmungen von Google (<a href="https://policies.google.com/privacy" rel="noopener">policies.google.com/privacy</a>).</p>
+
+<h2>8. Instagram</h2>
+<p><mark class="ph-mark">[Abschnitt ergänzen, sobald Instagram-Inhalte eingebunden werden. Ein einfacher Link auf das Profil überträgt keine Daten.]</mark></p>
+
+<h2>9. Ihre Rechte</h2>
+<p>Sie haben jederzeit das Recht auf unentgeltliche Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten (Art. 15 DSGVO) sowie ein Recht auf Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21 DSGVO). Eine erteilte Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen.</p>
+<p>Zudem steht Ihnen ein Beschwerderecht bei einer Datenschutz-Aufsichtsbehörde zu, z. B. beim Thüringer Landesbeauftragten für den Datenschutz und die Informationsfreiheit (TLfDI), Häßlerstraße 8, 99096 Erfurt.</p>
+
+<p class="muted" style="margin-top:var(--s-6)">Stand: Oktober 2026</p>
+</div></div>
+  </section>
+</main>
+<!-- ===== Footer: koi pond ===== -->
+<footer class="pond">
+  <div class="pond__water" id="pond" aria-hidden="true">
+    <svg class="pond__koi pond__koi--1" viewBox="0 0 100 40"><use href="#koi"/></svg>
+    <svg class="pond__koi pond__koi--2" viewBox="0 0 100 40" style="--koi-body:#d4a72c;--koi-fin:#b88a1a;--koi-spot:#f6e7b0"><use href="#koi"/></svg>
+  </div>
+  <div class="footer container">
+    <div class="footer__grid">
+      <div>
+        <a class="brand" href="index.html"><span class="brand__mark"><img src="assets/img/logo-tmp.jpg" alt=""></span><span class="brand__name">Do Sushi Haus<small>Japanese Cuisine</small></span></a>
+        <p style="margin-top:var(--s-3);max-width:22rem">Sushi-Kunst und asiatische Küche in Schmalkalden.</p>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <ul><li>Steingasse 10</li><li>98574 Schmalkalden</li><li><a href="tel:+4936836098662">03683 6098662</a></li></ul>
+      </div>
+      <div>
+        <h4>Öffnungszeiten</h4>
+        <ul><li>Mo, Mi–So</li><li>11:00–14:30 · 16:30–21:00</li><li>Dienstag Ruhetag</li></ul>
+      </div>
+    </div>
+    <div class="footer__legal">
+      <span>© 2026 Do Sushi Haus · Informationen zu Zusatzstoffen und Allergenen erhalten Sie auf Anfrage.</span>
+      <nav aria-label="Rechtliches"><a href="impressum.html">Impressum</a><a href="datenschutz.html" aria-current="page">Datenschutz</a></nav>
+    </div>
+  </div>
+</footer>
+
+<a class="call-fab" href="tel:+4936836098662" aria-label="Anrufen"><svg><use href="#i-phone"/></svg></a>
+
+<script src="js/main.js" defer></script>
+<script src="js/motion.js" defer></script>
+</body>
+</html>

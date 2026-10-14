@@ -1,0 +1,304 @@
+/* Do Sushi Haus – shared behaviour (vanilla JS, no dependencies) */
+(() => {
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(pointer: fine)').matches;
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+
+  /* ---------- Intro: once per session, skippable ---------- */
+  const intro = $('#intro');
+  if (intro) {
+    let seen = false;
+    try { seen = sessionStorage.getItem('do-intro') === '1'; } catch (e) {}
+    const finish = () => {
+      if (intro.classList.contains('is-done')) return;
+      intro.classList.add('is-done');
+      document.documentElement.style.overflow = '';
+      document.dispatchEvent(new Event('intro:done'));
+      try { sessionStorage.setItem('do-intro', '1'); } catch (e) {}
+    };
+    if (seen || reduceMotion) {
+      intro.remove();
+    } else {
+      document.documentElement.style.overflow = 'hidden';
+      const stage = $('#introStage');
+      const fit = () => stage.style.setProperty('--k', Math.min(1, Math.min(innerWidth, innerHeight) * 0.8 / 440));
+      fit(); addEventListener('resize', fit);
+
+      // Swap in the koi video when it exists
+      const mobile = innerWidth < 768;
+      const src = intro.dataset[mobile ? 'videoMobile' : 'videoDesktop'];
+      if (src) {
+        stage.remove();
+        const v = Object.assign(document.createElement('video'), { src, muted: true, playsInline: true, autoplay: true, className: 'intro__video' });
+        v.addEventListener('ended', finish);
+        v.addEventListener('error', finish);
+        intro.prepend(v);
+        setTimeout(() => { if (v.readyState < 3) finish(); }, 1500); // slow network → skip
+      } else {
+        setTimeout(finish, 4200);
+      }
+      $('#introSkip').addEventListener('click', finish);
+    }
+  }
+
+  /* ---------- Header: solid after scrolling ---------- */
+  const header = $('#header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-solid', scrollY > 40);
+    onScroll(); addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  /* ---------- Mobile menu ---------- */
+  const toggle = $('#menuToggle');
+  if (toggle) {
+    const setOpen = open => {
+      document.body.classList.toggle('menu-open', open);
+      toggle.setAttribute('aria-expanded', open);
+      toggle.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+    };
+    toggle.addEventListener('click', () => setOpen(!document.body.classList.contains('menu-open')));
+    $$('#mobileMenu a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+    addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+  }
+
+  /* ---------- Opening hours & live badge ---------- */
+  // Mo–So 11:00–14:30 & 16:30–21:00, Tuesday closed (except public holidays)
+  const DAYS = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  const SLOTS = [[660, 870], [990, 1260]];
+  const CLOSED_DAY = 2;
+  const fmt = m => `${String(m / 60 | 0).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
+  const now = new Date(), today = now.getDay(), min = now.getHours() * 60 + now.getMinutes();
+
+  $$('[data-hours]').forEach(tbody => {
+    tbody.innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => {
+      const closed = d === CLOSED_DAY;
+      const cls = [d === today && 'is-today', closed && 'is-closed'].filter(Boolean).join(' ');
+      return `<tr class="${cls}"><th scope="row">${DAYS[d]}</th><td>${closed ? 'Ruhetag' : SLOTS.map(s => `${fmt(s[0])}–${fmt(s[1])}`).join(' · ')}</td></tr>`;
+    }).join('');
+  });
+
+  // Timeline: 10:00 → 22:00
+  const T0 = 600, T1 = 1320, pct = m => ((m - T0) / (T1 - T0) * 100).toFixed(2) + '%';
+  const SHORT = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+  $$('[data-timeline]').forEach(el => {
+    const mid = s => pct((s[0] + s[1]) / 2);
+    el.innerHTML = `<div class="tl-head"><span></span><div><span style="left:${mid(SLOTS[0])}">Mittag</span><span style="left:${mid(SLOTS[1])}">Abend</span></div></div>` + [1, 2, 3, 4, 5, 6, 0].map((d, i) => {
+      const closed = d === CLOSED_DAY, isToday = d === today;
+      const slots = closed ? '' : SLOTS.map(s => `<span class="tl-slot" style="left:${pct(s[0])};width:calc(${pct(s[1])} - ${pct(s[0])});--i:${i}" title="${fmt(s[0])}–${fmt(s[1])}"><span>${fmt(s[0])}–${fmt(s[1])}</span></span>`).join('');
+      const nowMark = isToday && min >= T0 && min <= T1 ? `<span class="tl-now" style="left:${pct(min)}" title="Jetzt ${fmt(min)}"></span>` : '';
+      return `<div class="tl-row${isToday ? ' is-today' : ''}${closed ? ' is-closed' : ''}"><span class="tl-day">${SHORT[d]}</span><div class="tl-bar" role="img" aria-label="${DAYS[d]}: ${closed ? 'Ruhetag' : SLOTS.map(s => fmt(s[0]) + ' bis ' + fmt(s[1])).join(' und ')}">${slots}${nowMark}</div></div>`;
+    }).join('') + '<div class="tl-scale"><span></span><div><span>10</span><span>13</span><span>16</span><span>19</span><span>22 Uhr</span></div></div>'
+
+  });
+
+  const status = (() => {
+    if (today !== CLOSED_DAY) {
+      const open = SLOTS.find(s => min >= s[0] && min < s[1]);
+      if (open) return { open: true, text: `Jetzt geöffnet · bis ${fmt(open[1])} Uhr` };
+      const next = SLOTS.find(s => min < s[0]);
+      if (next) return { open: false, text: `Geschlossen · öffnet um ${fmt(next[0])} Uhr` };
+    }
+    for (let i = 1; i <= 7; i++) {
+      const d = (today + i) % 7;
+      if (d !== CLOSED_DAY) return { open: false, text: `Geschlossen · öffnet ${i === 1 ? 'morgen' : DAYS[d]} um ${fmt(SLOTS[0][0])} Uhr` };
+    }
+  })();
+  $$('[data-open-badge]').forEach(b => { b.textContent = status.text; b.classList.toggle('is-open', status.open); });
+
+  /* ---------- Sushi belt (kaiten): auto-run · drag · swipe · trackpad · arrows ---------- */
+  const belt = $('#belt'), track = $('#beltTrack');
+  if (belt && track) {
+    const originals = [...track.children];
+    // one cloned set makes the loop endless; clones are hidden from assistive tech
+    originals.forEach(p => { const c = p.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.inert = true; track.appendChild(c); });
+
+    const AUTO = reduceMotion ? 0 : (innerWidth < 768 ? 0.022 : 0.03); // px per ms
+    let setW = 1, step = 1;
+    const measure = () => {
+      setW = track.children[originals.length].offsetLeft - track.children[0].offsetLeft;
+      step = track.children[1].offsetLeft - track.children[0].offsetLeft;
+    };
+    measure(); addEventListener('resize', measure);
+
+    const rail = document.createElement('div'); rail.className = 'belt__rail'; belt.prepend(rail);
+    let leanShown = 0;
+    let x = 0, v = 0, target = null, hover = false, drag = null, visible = false, last = 0, raf = 0, lean = 0, prevX = 0;
+    const wrap = () => {
+      if (x >= setW) { x -= setW; if (target !== null) target -= setW; }
+      else if (x < 0) { x += setW; if (target !== null) target += setW; }
+    };
+    const loop = t => {
+      const dt = Math.min(48, t - (last || t)); last = t;
+      if (drag) {
+        const before = x;
+        x += (drag.goal - x) * Math.min(1, dt * 0.025);  // follow the finger softly
+        if (x >= setW) { x -= setW; drag.goal -= setW; } else if (x < 0) { x += setW; drag.goal += setW; }
+        void before;
+      } else {
+        if (target !== null) {                       // arrow: ease to the next plate
+          x += (target - x) * Math.min(1, dt * 0.012);
+          if (Math.abs(target - x) < 0.4) { x = target; target = null; }
+        } else {
+          x += (v + (hover ? 0 : AUTO)) * dt;          // inertia blends back into auto-run
+          v *= Math.pow(0.94, dt / 16);
+          if (Math.abs(v) < 0.002) v = 0;
+        }
+      }
+      wrap();
+      track.style.transform = `translate3d(${(-x).toFixed(2)}px,0,0)`;
+      rail.style.transform = `translate3d(${(-(x % 40)).toFixed(2)}px,0,0)`;
+      // plates lean with the belt's own speed
+      const inst = dt ? (x - prevX) / dt : 0; prevX = x;
+      lean += (Math.max(-5, Math.min(5, (inst - AUTO) * 6)) - lean) * Math.min(1, dt * 0.006);
+      if (Math.abs(lean - leanShown) > 0.05) { leanShown = lean; belt.style.setProperty('--bvel', lean.toFixed(2)); }
+      raf = visible && !document.hidden ? requestAnimationFrame(loop) : 0;
+    };
+    const run = () => { if (!raf) { last = 0; raf = requestAnimationFrame(loop); } };
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) run(); }).observe(belt);
+    document.addEventListener('visibilitychange', run);
+
+    // Pointer drag (mouse + touch; vertical page scroll stays native via touch-action: pan-y)
+    belt.addEventListener('pointerdown', e => {
+      if (e.button !== 0 || e.target.closest('.belt__nav')) return;
+      drag = { x: e.clientX, t: performance.now(), moved: 0, goal: x };
+      v = 0; target = null;
+    });
+    addEventListener('pointermove', e => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x, now = performance.now(), dt = Math.max(1, now - drag.t);
+      if (!belt.classList.contains('is-dragging') && Math.abs(dx) + drag.moved > 4) {
+        belt.classList.add('is-dragging');
+        try { belt.setPointerCapture(e.pointerId); } catch (err) {}
+      }
+      drag.moved += Math.abs(dx);
+      drag.goal -= dx;
+      v = v * 0.6 + (-dx / dt) * 0.4;                 // remember fling speed
+      drag.x = e.clientX; drag.t = now;
+      run();
+    });
+    const release = () => {
+      if (!drag) return;
+      if (performance.now() - drag.t > 90) v = 0;      // held still before letting go → no fling
+      v = Math.max(-3, Math.min(3, v));
+      belt.dataset.moved = drag.moved > 6 ? '1' : '';
+      x = drag.goal; wrap();
+      drag = null; belt.classList.remove('is-dragging');
+    };
+    addEventListener('pointerup', release);
+    addEventListener('pointercancel', release);
+    belt.addEventListener('click', e => { if (belt.dataset.moved) { e.preventDefault(); e.stopPropagation(); belt.dataset.moved = ''; } }, true);
+
+    // Hover pauses (mouse only)
+    belt.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') hover = true; });
+    belt.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') hover = false; });
+
+    // Trackpad / shift+wheel horizontal scrolling
+    belt.addEventListener('wheel', e => {
+      const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : (e.shiftKey ? e.deltaY : 0);
+      if (!dx) return;
+      e.preventDefault();
+      target = null; x += dx; v = dx * 0.004; run();
+    }, { passive: false });
+
+    // Arrow buttons: glide exactly one plate
+    $$('[data-belt]', belt).forEach(btn => btn.addEventListener('click', () => {
+      const base = target ?? x;
+      target = Math.round(base / step) * step + (+btn.dataset.belt) * step;
+      v = 0; run();
+    }));
+  }
+
+  /* ---------- Map (Google Maps embed): load only after consent, optionally remembered. ---------- */
+  const loadMap = box => {
+    const q = encodeURIComponent(box.dataset.query || `${box.dataset.lat},${box.dataset.lng}`);
+    const frame = Object.assign(document.createElement('iframe'), {
+      src: `https://maps.google.com/maps?q=${q}&z=16&hl=de&output=embed`,
+      title: 'Karte: ' + (box.dataset.label || 'Standort'),
+      loading: 'lazy', referrerPolicy: 'no-referrer-when-downgrade', allowFullscreen: true
+    });
+    box.innerHTML = ''; box.style.padding = '0'; box.classList.add('is-map');
+    box.append(frame);
+  };
+  let mapOk = false;
+  try { mapOk = localStorage.getItem('do-map') === '1'; } catch (e) {}
+  $$('.map-ph[data-lat]').forEach(box => {
+    if (mapOk) return loadMap(box);
+    const btn = $('[data-load-map]', box);
+    btn && btn.addEventListener('click', () => {
+      if ($('[data-map-remember]', box)?.checked) { try { localStorage.setItem('do-map', '1'); } catch (e) {} }
+      loadMap(box);
+    });
+  });
+
+  /* ---------- Pointer lamp (desktop only) ---------- */
+  const spot = $('.ambient__spot');
+  if (spot && finePointer && !reduceMotion) {
+    let tx = innerWidth / 2, ty = innerHeight * .3, x = tx, y = ty, raf = 0;
+    const tick = () => {
+      x += (tx - x) * .08; y += (ty - y) * .08;
+      spot.style.setProperty('--mx', `${x}px`); spot.style.setProperty('--my', `${y}px`);
+      raf = Math.abs(tx - x) + Math.abs(ty - y) > .5 ? requestAnimationFrame(tick) : 0;
+    };
+    addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
+  }
+
+  /* ---------- Speisekarte: category scroll-spy ---------- */
+  const catBar = $('#catBar');
+  if (catBar) {
+    const links = $$('a', catBar);
+    const tabs = $$('[data-tab]');
+    const setActive = id => {
+      const link = links.find(a => a.hash === `#${id}`);
+      if (!link || link.classList.contains('is-active')) return;
+      links.forEach(a => a.classList.toggle('is-active', a === link));
+      tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === link.dataset.world));
+      // keep the active chip visible inside the horizontal bar
+      catBar.scrollTo({ left: link === links[0] ? 0 : link.offsetLeft - catBar.clientWidth / 2 + link.clientWidth / 2, behavior: reduceMotion ? 'auto' : 'smooth' });
+    };
+    const spy = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); }),
+      { rootMargin: '-45% 0px -50% 0px' });
+    $$('[data-cat]').forEach(s => spy.observe(s));
+    // back at the top → first category
+    const first = $('[data-cat]');
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) setActive(first.id); }).observe($('.page-hero'));
+  }
+
+  /* ---------- Dish photo lightbox ---------- */
+  if ($('[data-zoom]')) {
+    const box = document.createElement('div');
+    box.className = 'zoom'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+    box.innerHTML = '<figure><img alt=""><figcaption></figcaption></figure><button type="button" aria-label="Schließen">✕</button>';
+    document.body.append(box);
+    let opener = null;
+    const close = () => { box.classList.remove('is-open'); opener && opener.focus(); };
+    document.addEventListener('click', e => {
+      const t = e.target.closest('[data-zoom]');
+      if (t) { opener = t; $('img', box).src = t.dataset.zoom; $('figcaption', box).textContent = t.dataset.cap; box.classList.add('is-open'); $('button', box).focus(); }
+      else if (e.target === box || e.target.closest('.zoom button')) close();
+    });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && box.classList.contains('is-open')) close(); });
+  }
+
+  /* ---------- Koi pond ripples ---------- */
+  const pond = $('#pond');
+  if (pond && !reduceMotion) {
+    const ripple = (x, y) => {
+      const r = document.createElement('span');
+      r.className = 'ripple';
+      r.style.left = `${x}px`; r.style.top = `${y}px`;
+      pond.appendChild(r);
+      r.addEventListener('animationend', () => r.remove());
+    };
+    const footer = pond.parentElement;
+    let last = 0;
+    footer.addEventListener('pointerdown', e => {
+      const b = pond.getBoundingClientRect(); ripple(e.clientX - b.left, e.clientY - b.top);
+    });
+    if (finePointer) footer.addEventListener('pointermove', e => {
+      if (performance.now() - last < 140) return;
+      last = performance.now();
+      const b = pond.getBoundingClientRect(); ripple(e.clientX - b.left, e.clientY - b.top);
+    });
+  }
+})();
