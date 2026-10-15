@@ -10,7 +10,7 @@
 
 /* ---------- Sticky category bar ---------- */
 .menu-nav {
-  position: sticky; top: 109px; z-index: 30;
+  position: sticky; top: 75px; z-index: 30;
   background: rgba(14,14,14,.92); backdrop-filter: blur(8px);
   border-block: 1px solid var(--line);
 }

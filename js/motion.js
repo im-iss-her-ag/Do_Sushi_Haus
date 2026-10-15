@@ -131,7 +131,7 @@
   const rot = $$('[data-rotate]').map(el => ({ el, k: +el.dataset.rotate }));
   const glow = $$('[data-glow]');
   const heroOut = $$('[data-hero-out]');
-  const heroVisual = document.querySelector('.hero__visual');
+  const heroVisual = document.querySelector('main > .hero:first-child .hero__visual'); // only when the hero opens the page
   const header = document.querySelector('.site-header');
   let docH = 0, vh = innerHeight;
 

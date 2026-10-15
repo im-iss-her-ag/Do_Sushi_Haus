@@ -111,13 +111,28 @@
 <main id="top">
 
   <!-- ===== Hero ===== -->
-  <section class="hero">
-    <div class="hero__lanterns" aria-hidden="true" data-drop>
+  <!-- ===== Brand: logo stands on its own ===== -->
+  <section class="brand-band">
+    <div class="hero__lanterns brand-band__lanterns" aria-hidden="true" data-drop>
       <span class="lantern" style="--size:46px"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
       <span class="lantern" style="--size:46px;--delay:-2.2s"><svg viewBox="0 0 64 120"><use href="#lantern"/></svg></span>
     </div>
+    <div class="container brand-band__inner">
+      <div class="brand-band__logo reveal-ink">
+        <img src="assets/img/logo-tmp.webp" alt="Do Sushi Haus Logo">
+        <svg class="ring-draw" viewBox="0 0 100 100" aria-hidden="true" filter="url(#brushy)" data-rotate="0.04"><path pathLength="1" d="M14 70A44 44 0 1 1 70 93" stroke="#d4a72c" stroke-width=".9" fill="none" stroke-linecap="round"/><path pathLength="1" d="M82 16A44 44 0 0 1 95 42" stroke="#c62a1f" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg>
+      </div>
+      <div class="brand-band__text" data-stagger="120">
+        <p class="label">Herzlich willkommen</p>
+        <h2 data-split>Do Sushi Haus</h2>
+        <p>Ein kleines Stück Japan in der Steingasse – frisch gerollt, mit Liebe angerichtet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero">
     <div class="container hero__grid">
-      <div class="hero__text" data-stagger="110" data-hero-out>
+      <div class="hero__text" data-stagger="110">
         <p class="label hero__eyebrow">Japanische Küche · Schmalkalden</p>
         <h1 class="display" data-split>Frisch gerollt.<br><em>Mit Hingabe serviert.</em></h1>
         <p class="lead">Sushi-Kunst und asiatische Küche im Herzen von Schmalkalden – handgemacht, Rolle für Rolle.</p>
@@ -129,10 +144,12 @@
       </div>
       <div class="hero__visual reveal-ink">
         <div class="hero__dish"><img src="assets/img/dragon.webp" alt="Dragon Roll mit gegrilltem Aal auf schwarzem Teller" fetchpriority="high"></div>
+
       </div>
     </div>
     <a class="hero__scroll label" href="#willkommen">Entdecken</a>
   </section>
+
 
   <!-- ===== Willkommen ===== -->
   <section class="section welcome" id="willkommen">
@@ -316,11 +333,11 @@
         </div>
       </div>
       <div class="sets" data-stagger="130">
-        <article class="set-card"><p class="label">Menü 5</p><p class="set-card__name">Tiger Menü</p><p class="set-card__price">48,00 €</p>
+        <article class="set-card set-card--img"><img class="set-card__img" src="assets/img/dish/menu5.webp" alt="" loading="lazy"><p class="label">Menü 5</p><p class="set-card__name">Tiger Menü</p><p class="set-card__price">48,00 €</p>
           <ul style="margin-top:var(--s-3)"><li>8 Stk. Crispy Tiger Rolls</li><li>8 Stk. Lachs-Maki · 6 Stk. Crunchy Salmon</li><li>2 Lachs- · 2 Thunfisch- · 2 Ebi-Nigiri</li><li>8 Stk. Avocado-Maki</li></ul></article>
-        <article class="set-card"><span class="seal">Chef’s<br>Wahl</span><p class="label">Menü 6</p><p class="set-card__name">Sushi Symphony</p><p class="set-card__price">76,00 €</p>
+        <article class="set-card set-card--img"><img class="set-card__img" src="assets/img/dish/menu6.webp" alt="" loading="lazy"><span class="seal">Chef’s<br>Wahl</span><p class="label">Menü 6</p><p class="set-card__name">Sushi Symphony</p><p class="set-card__price">76,00 €</p>
           <ul style="margin-top:var(--s-3)"><li>Seetangsalat · 8 Stk. Maki Avocado</li><li>2 Nigiri Lachs · 2 Tuna-Nigiri</li><li>4 Sashimi Lachs · 4 Sashimi Thunfisch</li><li>8 Trüffel Sake · 8 Niji Rainbow</li><li>8 Ebi Cali · 6 Special Crunchy</li></ul></article>
-        <article class="set-card"><p class="label">Menü 7</p><p class="set-card__name">Sushi Master’s Choice</p><p class="set-card__price">Ihr Wunschpreis</p>
+        <article class="set-card set-card--img"><img class="set-card__img" src="assets/img/dish/menu7.webp" alt="" loading="lazy"><p class="label">Menü 7</p><p class="set-card__name">Sushi Master’s Choice</p><p class="set-card__price">Ihr Wunschpreis</p>
           <ul style="margin-top:var(--s-3)"><li>Sie nennen uns Ihren Wunschpreis – unser Sushi-Meister kreiert daraus Ihre persönliche Auswahl. Lassen Sie sich überraschen.</li></ul>
           <a class="btn btn--ghost" href="tel:+4936836098662" style="margin-top:var(--s-4)"><svg><use href="#i-phone"/></svg>Anfragen</a></article>
       </div>

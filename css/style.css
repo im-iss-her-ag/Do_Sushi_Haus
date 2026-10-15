@@ -341,3 +341,113 @@ p { margin: 0 0 var(--s-3); }
 .belt--native .plate { scroll-snap-align: start; }
 .belt--native .plate__dish { rotate: none !important; }
 .belt--native .belt__rail, .belt--native .belt__nav { display: none; }
+
+/* ==========================================================================
+   Sushi Menü – premium set cards (the priciest items deserve a showcase)
+   ========================================================================== */
+.set-card {
+  isolation: isolate;
+  border: 1px solid transparent; border-top-width: 1px; border-radius: 10px;
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(212,167,44,.14), transparent 60%) padding-box,
+    linear-gradient(180deg, #1e1b16, #141312) padding-box,
+    linear-gradient(160deg, rgba(232,199,102,.85), rgba(212,167,44,.15) 35%, rgba(212,167,44,.08) 65%, rgba(232,199,102,.6)) border-box;
+  box-shadow: 0 24px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,236,190,.06);
+  transition: translate .45s var(--ease-out, ease), box-shadow .45s;
+}
+/* gold corner ornaments */
+.set-card::before, .set-card::after {
+  content: ""; position: absolute; width: 22px; height: 22px; pointer-events: none; z-index: 2;
+  border: 1.5px solid var(--gold); opacity: .8;
+}
+.set-card::before { left: 10px; bottom: 10px; border-right: 0; border-top: 0; border-radius: 0 0 0 4px; }
+.set-card::after { right: 10px; bottom: 10px; border-left: 0; border-top: 0; border-radius: 0 0 4px 0; }
+.set-card:hover { translate: 0 -8px; box-shadow: 0 34px 70px rgba(0,0,0,.6), 0 0 0 1px rgba(232,199,102,.35), 0 0 40px rgba(212,167,44,.12); }
+
+.set-card .label { color: var(--gold); letter-spacing: .28em; }
+.set-card__name { font-size: 1.2rem; color: var(--ink); }
+.set-card__price {
+  font-size: clamp(2.2rem, 1.8rem + 1vw, 2.8rem);
+  background: linear-gradient(180deg, #f6dd8c, #d4a72c 55%, #a97c12);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: 0 6px 24px rgba(212,167,44,.18);
+  padding-bottom: .25rem; border-bottom: 1px solid var(--gold-line); margin-bottom: .2rem;
+}
+.set-card ul li { position: relative; padding-left: 1.1rem; color: #c9c1b3; }
+.set-card ul li::before { content: "◆"; position: absolute; left: 0; top: .42em; font-size: .5rem; color: var(--gold); }
+.set-card li + li { border-top-color: rgba(212,167,44,.12); }
+
+/* photo header: gentle zoom + light sweep on hover */
+.set-card__img { border-radius: 9px 9px 0 0; }
+.set-card--img { overflow: visible; }
+.set-card--img::marker { content: none; }
+.set-card--img > .set-card__img { position: relative; }
+
+/* featured (Chef's choice) card glows */
+.set-card:has(.seal) {
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(212,167,44,.24), transparent 60%) padding-box,
+    linear-gradient(180deg, #241f15, #151312) padding-box,
+    linear-gradient(160deg, #f6dd8c, #d4a72c 40%, rgba(212,167,44,.35) 70%, #f6dd8c) border-box;
+  box-shadow: 0 30px 70px rgba(0,0,0,.55), 0 0 60px rgba(212,167,44,.16);
+}
+@media (min-width: 900px) { .sets > .set-card:has(.seal) { scale: 1.04; z-index: 2; } }
+html, body { overflow-x: clip; }
+
+/* ==========================================================================
+   Set cards v3 – framed photo (never spills), mobile swipe showcase
+   ========================================================================== */
+.sets .set-card--img { padding-top: var(--s-3); }
+.sets .set-card--img .set-card__img {
+  display: block; width: 100%; max-width: 100%; margin: 0 0 var(--s-4);
+  aspect-ratio: 16 / 10; object-fit: cover; border-radius: 7px;
+  box-shadow: 0 0 0 1px rgba(232,199,102,.35), 0 14px 28px rgba(0,0,0,.5);
+  transform: none !important; transition: filter .5s;
+}
+.sets .set-card--img:hover .set-card__img { transform: none !important; filter: brightness(1.08) saturate(1.08); }
+.set-card__no {
+  position: absolute; left: calc(var(--s-3) + 10px); top: calc(var(--s-3) + 10px); z-index: 2;
+  min-width: 2.1rem; height: 2.1rem; padding: 0 .5rem; border-radius: 999px; display: grid; place-items: center;
+  background: rgba(12,12,12,.82); border: 1px solid var(--gold-line); color: var(--gold);
+  font: 700 .85rem var(--font-serif); backdrop-filter: blur(4px);
+}
+
+/* ---------- Phones & tablets: horizontal swipe showcase ---------- */
+@media (max-width: 899px) {
+  .sets {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 82%; grid-template-columns: none;
+    gap: 14px; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter)); padding: 22px var(--gutter) 30px;
+    scrollbar-width: none;
+  }
+  .sets::-webkit-scrollbar { display: none; }
+  .sets > .set-card {
+    scroll-snap-align: center; scale: .94; opacity: .62; translate: none !important;
+    transition: scale .45s var(--ease-out, ease), opacity .45s, box-shadow .45s;
+  }
+  .sets > .set-card.is-center { scale: 1; opacity: 1; box-shadow: 0 26px 60px rgba(0,0,0,.6), 0 0 40px rgba(212,167,44,.14); }
+  .sets > .set-card:has(.seal) { scale: .94; }
+  .sets > .set-card:has(.seal).is-center { scale: 1; }
+  /* stagger reveal inside the strip would hide off-screen cards – show them */
+  .js-motion .sets[data-stagger] > * { opacity: inherit; }
+}
+.sets-dots { display: none; }
+@media (max-width: 899px) {
+  .sets-dots { display: flex; justify-content: center; gap: 8px; margin-top: 4px; }
+  .sets-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: var(--line); transition: width .4s var(--ease-out, ease), background .4s; }
+  .sets-dots button.is-on { width: 26px; background: var(--gold); }
+  .sets-hint { text-align: center; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px; }
+}
+@media (min-width: 900px) { .sets-hint { display: none; } }
+
+/* ---------- No sideways page drift on phones ---------- */
+/* rotating ensō rings must not widen the page */
+@media (pointer: coarse), (max-width: 1023px) {
+  .ring-draw[data-rotate] { rotate: none !important; }
+}
+/* iOS Safari < 16 has no overflow: clip → fall back to hidden on body only */
+@supports not (overflow: clip) {
+  body { overflow-x: hidden; }
+  html { overflow-x: hidden; }
+}

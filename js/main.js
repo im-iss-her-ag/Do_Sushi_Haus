@@ -274,6 +274,36 @@
     new IntersectionObserver(([e]) => { if (e.isIntersecting) setActive(first.id); }).observe($('.page-hero'));
   }
 
+  /* ---------- Set cards: number badge + mobile swipe showcase (centre card, dots) ---------- */
+  $$('.sets').forEach(strip => {
+    const cards = [...strip.querySelectorAll(':scope > .set-card')];
+    cards.forEach(c => {
+      const no = (c.querySelector('.label')?.textContent.match(/\d+/) || [])[0];
+      if (no && c.querySelector('.set-card__img')) c.insertAdjacentHTML('afterbegin', `<span class="set-card__no" aria-hidden="true">${no}</span>`);
+    });
+    const hint = Object.assign(document.createElement('p'), { className: 'sets-hint', textContent: '← Wischen für alle Menüs →' });
+    const dots = Object.assign(document.createElement('div'), { className: 'sets-dots' });
+    dots.innerHTML = cards.map((_, i) => `<button type="button" aria-label="Menü ${i + 1}"></button>`).join('');
+    strip.before(hint); strip.after(dots);
+    const btns = [...dots.children];
+    btns.forEach((b, i) => b.addEventListener('click', () => cards[i].scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest', inline: 'center' })));
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const mid = strip.getBoundingClientRect().left + strip.clientWidth / 2;
+      let best = 0, bd = Infinity;
+      cards.forEach((c, i) => { const r = c.getBoundingClientRect(); const d = Math.abs(r.left + r.width / 2 - mid); if (d < bd) { bd = d; best = i; } });
+      cards.forEach((c, i) => c.classList.toggle('is-center', i === best));
+      btns.forEach((b, i) => b.classList.toggle('is-on', i === best));
+    };
+    strip.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    addEventListener('resize', update);
+    // start on the Chef's choice card if there is one (phones)
+    const fav = cards.findIndex(c => c.querySelector('.seal'));
+    if (innerWidth < 900 && fav > 0) strip.scrollLeft = cards[fav].offsetLeft - (strip.clientWidth - cards[fav].offsetWidth) / 2;
+    update();
+  });
+
   /* ---------- Dish photo lightbox ---------- */
   if ($('[data-zoom]')) {
     const box = document.createElement('div');
