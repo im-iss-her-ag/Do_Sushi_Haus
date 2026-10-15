@@ -304,20 +304,133 @@
     update();
   });
 
-  /* ---------- Dish photo lightbox ---------- */
+  /* ---------- Dish sheet: photo flies out of the thumbnail, details stagger in,
+     swipe / arrows browse the same category, closes back into the thumbnail ---------- */
   if ($('[data-zoom]')) {
     const box = document.createElement('div');
-    box.className = 'zoom'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
-    box.innerHTML = '<figure><img alt=""><figcaption></figcaption></figure><button type="button" aria-label="Schließen">✕</button>';
+    box.className = 'dsheet'; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Gericht');
+    box.innerHTML = `
+      <div class="dsheet__card">
+        <button class="dsheet__close" type="button" aria-label="Schließen">✕</button>
+        <div class="dsheet__photo">
+          <svg class="dsheet__ring" viewBox="0 0 100 100" aria-hidden="true"><path pathLength="1" d="M50 3A47 47 0 1 1 8 30"/><path class="r2" pathLength="1" d="M84 14A47 47 0 0 1 96 36"/></svg>
+          <img alt="">
+        </div>
+        <div class="dsheet__body">
+          <p class="dsheet__cat label"></p>
+          <h3 class="dsheet__name"></h3>
+          <div class="dsheet__tags"></div>
+          <p class="dsheet__desc"></p>
+          <ul class="dsheet__opts"></ul>
+          <div class="dsheet__foot">
+            <span class="dsheet__price"></span>
+            <a class="btn btn--primary dsheet__call" href="tel:+4936836098662"><svg><use href="#i-phone"/></svg>Bestellen</a>
+          </div>
+          <p class="dsheet__note"></p>
+        </div>
+        <div class="dsheet__nav">
+          <button type="button" data-step="-1" aria-label="Vorheriges Gericht">‹</button>
+          <span class="dsheet__count"></span>
+          <button type="button" data-step="1" aria-label="Nächstes Gericht">›</button>
+        </div>
+      </div>
+      <img class="dsheet__fly" alt="" aria-hidden="true">`;
     document.body.append(box);
-    let opener = null;
-    const close = () => { box.classList.remove('is-open'); opener && opener.focus(); };
+    const card = $('.dsheet__card', box), photo = $('.dsheet__photo', box), img = $('.dsheet__photo img', box), fly = $('.dsheet__fly', box);
+    let list = [], idx = 0, opener = null;
+
+    const fill = li => {
+      const t = $('.dish__thumb', li);
+      img.src = t.dataset.zoom;
+      $('.dsheet__name', box).textContent = $('.dish__name', li).textContent;
+      $('.dsheet__cat', box).textContent = li.closest('.cat')?.querySelector('.title-frame__box')?.firstChild?.textContent.trim() || '';
+      $('.dsheet__tags', box).innerHTML = [...li.querySelectorAll('.dish__head .tag')].map(x => x.outerHTML).join('');
+      const d = $('.dish__desc', li);
+      $('.dsheet__desc', box).innerHTML = d ? d.innerHTML : '';
+      const o = $('.dish__options', li);
+      $('.dsheet__opts', box).innerHTML = o ? o.innerHTML : '';
+      const pr = $(':scope > .dish__price', li)?.textContent.trim();
+      $('.dsheet__price', box).textContent = pr || (o ? 'ab ' + [...o.querySelectorAll('.dish__price')].map(x => x.textContent.trim()).sort((a, b) => parseFloat(a.replace(',', '.')) - parseFloat(b.replace(',', '.')))[0] : '');
+      $('.dsheet__note', box).textContent = (t.dataset.cap || '').includes('Symbolbild') ? 'Symbolbild – Serviervorschlag' : '';
+      $('.dsheet__count', box).textContent = `${idx + 1} / ${list.length}`;
+      box.classList.remove('is-shown'); void card.offsetWidth; box.classList.add('is-shown');
+    };
+
+    // FLIP: animate a copy of the image between two rects
+    const flyBetween = (from, to, src, done) => {
+      if (reduceMotion || !from || !to) return done && done();
+      fly.src = src;
+      Object.assign(fly.style, { left: to.left + 'px', top: to.top + 'px', width: to.width + 'px', height: to.height + 'px', opacity: 1 });
+      const sx = from.width / to.width, sy = from.height / to.height;
+      fly.style.transition = 'none';
+      fly.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${sx}, ${sy})`;
+      void fly.offsetWidth;
+      fly.style.transition = 'transform .62s cubic-bezier(.16,1,.3,1)';
+      fly.style.transform = 'none';
+      setTimeout(() => { fly.style.opacity = 0; done && done(); }, 620);
+    };
+
+    const open = t => {
+      opener = t;
+      const li = t.closest('.dish');
+      list = [...li.closest('.menu-list').querySelectorAll('.dish--img')];
+      idx = list.indexOf(li);
+      fill(li);
+      box.classList.add('is-open', 'is-flying');
+      document.documentElement.classList.add('dsheet-lock');
+      requestAnimationFrame(() => flyBetween(t.getBoundingClientRect(), photo.getBoundingClientRect(), t.dataset.zoom, () => box.classList.remove('is-flying')));
+      $('.dsheet__close', box).focus({ preventScroll: true });
+    };
+    const close = () => {
+      if (!box.classList.contains('is-open')) return;
+      const thumb = list[idx] && $('.dish__thumb', list[idx]);
+      const from = photo.getBoundingClientRect();
+      box.classList.add('is-closing');
+      if (thumb && !reduceMotion) {
+        fly.src = img.src;
+        const to = thumb.getBoundingClientRect();
+        Object.assign(fly.style, { transition: 'none', transform: 'none', left: from.left + 'px', top: from.top + 'px', width: from.width + 'px', height: from.height + 'px', opacity: 1 });
+        box.classList.add('is-flying');
+        void fly.offsetWidth;
+        fly.style.transition = 'transform .5s cubic-bezier(.65,0,.35,1), opacity .2s .4s';
+        fly.style.transform = `translate(${to.left - from.left}px, ${to.top - from.top}px) scale(${to.width / from.width}, ${to.height / from.height})`;
+        fly.style.opacity = 0;
+      }
+      setTimeout(() => {
+        box.classList.remove('is-open', 'is-closing', 'is-flying', 'is-shown');
+        document.documentElement.classList.remove('dsheet-lock');
+        (thumb || opener)?.focus({ preventScroll: true });
+      }, reduceMotion ? 0 : 480);
+    };
+    const step = dir => {
+      if (list.length < 2) return;
+      idx = (idx + dir + list.length) % list.length;
+      card.dataset.dir = dir > 0 ? 'next' : 'prev';
+      fill(list[idx]);
+    };
+
     document.addEventListener('click', e => {
       const t = e.target.closest('[data-zoom]');
-      if (t) { opener = t; $('img', box).src = t.dataset.zoom; $('figcaption', box).textContent = t.dataset.cap; box.classList.add('is-open'); $('button', box).focus(); }
-      else if (e.target === box || e.target.closest('.zoom button')) close();
+      if (t) { e.preventDefault(); open(t); return; }
+      if (!box.classList.contains('is-open')) return;
+      if (e.target === box || e.target.closest('.dsheet__close')) close();
+      const st = e.target.closest('[data-step]');
+      if (st) step(+st.dataset.step);
     });
-    addEventListener('keydown', e => { if (e.key === 'Escape' && box.classList.contains('is-open')) close(); });
+    addEventListener('keydown', e => {
+      if (!box.classList.contains('is-open')) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    });
+    // swipe left/right to browse, swipe down to close
+    let sx = 0, sy = 0;
+    card.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    card.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) step(dx < 0 ? 1 : -1);
+      else if (dy > 90 && card.scrollTop <= 0) close();
+    }, { passive: true });
   }
 
   /* ---------- Koi pond ripples ---------- */

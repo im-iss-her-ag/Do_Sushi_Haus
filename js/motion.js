@@ -204,7 +204,8 @@
     spreads.forEach(o => {
       const r = o.el.getBoundingClientRect();
       if (r.bottom < -vh || r.top > vh * 2) return;
-      const p = clamp((vh - r.top) / (r.height * .7 + vh * .3), 0, 1);
+      // stays stacked until the section is well inside the screen, then opens over ~half its height
+      const p = clamp((vh * .5 - r.top) / (r.height * .55), 0, 1);
       const e = 1 - Math.pow(1 - p, 3);
       const unit = Math.min(innerWidth, 1400) / 100;
       o.items.forEach(it => {
