@@ -15,7 +15,7 @@
     <div class="cover">
       <div>
         <div class="cover__logo">
-          <img src="assets/img/logo-tmp.jpg" alt="">
+          <img src="assets/img/logo-tmp.webp" alt="">
           <svg viewBox="0 0 100 100" filter="url(#brushy)" aria-hidden="true">
             <path d="M14 70A44 44 0 1 1 70 93" stroke="#d4a72c" stroke-width=".9"/>
             <path d="M82 16A44 44 0 0 1 95 42" stroke="#c62a1f" stroke-width="1.8"/>
@@ -85,7 +85,11 @@
     let cur = 0;          // leaves already turned
     let side = 'R';       // mobile only: which half of the spread is in view
 
-    const load = () => {  // only fetch images around the current spread
+    // fetch page images only once the book is near the viewport, then around the current spread
+    let near = false;
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { near = true; o.disconnect(); load(); } }, { rootMargin: '600px 0px' }).observe(book);
+    const load = () => {
+      if (!near) return;
       leaves.forEach((l, i) => {
         if (Math.abs(i - cur) <= 3) l.querySelectorAll('img[data-src]').forEach(img => { img.src = img.dataset.src; img.removeAttribute('data-src'); });
       });

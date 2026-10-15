@@ -108,7 +108,17 @@
 
   /* ---------- Sushi belt (kaiten): auto-run · drag · swipe · trackpad · arrows ---------- */
   const belt = $('#belt'), track = $('#beltTrack');
-  if (belt && track) {
+  // Phones / touch: lantern windows use cheap transform parallax (motion.js [data-speed]) instead of
+  // position: fixed, which repaints on every scroll frame on iOS. Must run before motion.js reads [data-speed].
+  if (matchMedia('(pointer: coarse), (max-width: 1023px)').matches) {
+    $$('.window__bg').forEach(bg => bg.setAttribute('data-speed', '-1.3'));
+  }
+
+  // Phones / touch: native horizontal scrolling (no clones, no per-frame JS, no huge GPU layer).
+  // A 34-plate translated track with will-change + mask exhausted GPU memory on iOS and crashed the tab.
+  const nativeBelt = belt && (matchMedia('(pointer: coarse)').matches || innerWidth < 1024);
+  if (nativeBelt) belt.classList.add('belt--native');
+  if (belt && track && !nativeBelt) {
     const originals = [...track.children];
     // one cloned set makes the loop endless; clones are hidden from assistive tech
     originals.forEach(p => { const c = p.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.inert = true; track.appendChild(c); });

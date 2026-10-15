@@ -1,0 +1,5 @@
+image/
+*.csv
+.DS_Store
+Thumbs.db
+.vscode/

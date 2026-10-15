@@ -199,8 +199,6 @@ p { margin: 0 0 var(--s-3); }
   background: repeating-linear-gradient(90deg, #1d1d1d 0 38px, #191919 38px 40px);
   border-block: 1px solid var(--line); will-change: transform;
 }
-.plate { contain: layout paint; }
-.plate__dish { backface-visibility: hidden; }
 .plate { width: 210px; flex: none; text-align: center; }
 .plate__dish {
   width: 190px; margin-inline: auto;
@@ -331,3 +329,15 @@ p { margin: 0 0 var(--s-3); }
   .reveal { opacity: 0; transform: translateY(16px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
   .reveal.is-visible { opacity: 1; transform: none; }
 }
+
+/* ---------- Native belt for touch devices: browser scrolling, lightweight ---------- */
+.belt--native {
+  overflow-x: auto; overflow-y: hidden; cursor: auto; touch-action: auto;
+  -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter);
+  scrollbar-width: none; mask-image: none; -webkit-mask-image: none;
+}
+.belt--native::-webkit-scrollbar { display: none; }
+.belt--native .belt__track { will-change: auto; transform: none !important; }
+.belt--native .plate { scroll-snap-align: start; }
+.belt--native .plate__dish { rotate: none !important; }
+.belt--native .belt__rail, .belt--native .belt__nav { display: none; }
