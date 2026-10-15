@@ -74,7 +74,7 @@
     tbody.innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => {
       const closed = d === CLOSED_DAY;
       const cls = [d === today && 'is-today', closed && 'is-closed'].filter(Boolean).join(' ');
-      return `<tr class="${cls}"><th scope="row">${DAYS[d]}</th><td>${closed ? 'Ruhetag' : SLOTS.map(s => `${fmt(s[0])}–${fmt(s[1])}`).join(' · ')}</td></tr>`;
+      return `<tr class="${cls}"><th scope="row">${DAYS[d]}</th><td>${closed ? 'Ruhetag (außer an Feiertagen)' : SLOTS.map(s => `${fmt(s[0])}–${fmt(s[1])}`).join(' · ')}</td></tr>`;
     }).join('');
   });
 
@@ -87,7 +87,7 @@
       const closed = d === CLOSED_DAY, isToday = d === today;
       const slots = closed ? '' : SLOTS.map(s => `<span class="tl-slot" style="left:${pct(s[0])};width:calc(${pct(s[1])} - ${pct(s[0])});--i:${i}" title="${fmt(s[0])}–${fmt(s[1])}"><span>${fmt(s[0])}–${fmt(s[1])}</span></span>`).join('');
       const nowMark = isToday && min >= T0 && min <= T1 ? `<span class="tl-now" style="left:${pct(min)}" title="Jetzt ${fmt(min)}"></span>` : '';
-      return `<div class="tl-row${isToday ? ' is-today' : ''}${closed ? ' is-closed' : ''}"><span class="tl-day">${SHORT[d]}</span><div class="tl-bar" role="img" aria-label="${DAYS[d]}: ${closed ? 'Ruhetag' : SLOTS.map(s => fmt(s[0]) + ' bis ' + fmt(s[1])).join(' und ')}">${slots}${nowMark}</div></div>`;
+      return `<div class="tl-row${isToday ? ' is-today' : ''}${closed ? ' is-closed' : ''}"><span class="tl-day">${SHORT[d]}</span><div class="tl-bar" role="img" aria-label="${DAYS[d]}: ${closed ? 'Ruhetag (außer an Feiertagen)' : SLOTS.map(s => fmt(s[0]) + ' bis ' + fmt(s[1])).join(' und ')}">${slots}${nowMark}</div></div>`;
     }).join('') + '<div class="tl-scale"><span></span><div><span>10</span><span>13</span><span>16</span><span>19</span><span>22 Uhr</span></div></div>'
 
   });

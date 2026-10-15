@@ -275,7 +275,7 @@
   <section class="sg-section">
     <span class="sg-num">12</span>
     <h2 class="sg-title">Öffnungsstatus &amp; Zeiten</h2>
-    <p class="sg-note">Berechnet live aus den Öffnungszeiten; Dienstag Ruhetag. Heute wird gold hervorgehoben.</p>
+    <p class="sg-note">Berechnet live aus den Öffnungszeiten; Dienstag Ruhetag (außer an Feiertagen). Heute wird gold hervorgehoben.</p>
     <div class="sg-grid">
       <div class="demo">
         <p><span class="open-badge" id="badge">…</span></p>
@@ -333,7 +333,7 @@
   [1,2,3,4,5,6,0].forEach(d => {
     const closed = d === 2;
     tbody.insertAdjacentHTML('beforeend',
-      `<tr class="${d === today ? 'is-today' : ''} ${closed ? 'is-closed' : ''}"><th>${days[d]}</th><td>${closed ? 'Ruhetag' : slots.map(s => fmt(s[0]) + '–' + fmt(s[1])).join(' · ')}</td></tr>`);
+      `<tr class="${d === today ? 'is-today' : ''} ${closed ? 'is-closed' : ''}"><th>${days[d]}</th><td>${closed ? 'Ruhetag (außer an Feiertagen)' : slots.map(s => fmt(s[0]) + '–' + fmt(s[1])).join(' · ')}</td></tr>`);
   });
   const badge = document.getElementById('badge');
   const open = today !== 2 && slots.find(s => min >= s[0] && min < s[1]);
