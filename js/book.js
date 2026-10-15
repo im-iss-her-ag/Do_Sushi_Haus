@@ -94,7 +94,14 @@
         if (Math.abs(i - cur) <= 3) l.querySelectorAll('img[data-src]').forEach(img => { img.src = img.dataset.src; img.removeAttribute('data-src'); });
       });
     };
-    const stack = () => leaves.forEach((l, i) => { l.style.zIndex = l.classList.contains('is-flipped') ? i + 1 : N - i + N; });
+    // Only the leaves around the open spread exist for the GPU; the rest are display:none.
+    // (19 preserve-3d leaves with photos at once exhausted iOS memory and crashed Safari/Chrome.)
+    const KEEP = 2;
+    const stack = () => leaves.forEach((l, i) => {
+      l.style.zIndex = l.classList.contains('is-flipped') ? i + 1 : N - i + N;
+      const near = i >= cur - KEEP && i <= cur + KEEP - 1;
+      l.style.display = near ? '' : 'none';
+    });
 
     const label = () => {
       if (cur === 0) return 'Umschlag';
@@ -126,6 +133,7 @@
         return setTimeout(() => turn(dir, true), 450);
       }
       const leaf = leaves[dir > 0 ? cur : cur - 1];
+      leaves.forEach((l, i) => { if (Math.abs(i - (dir > 0 ? cur : cur - 1)) <= 1) l.style.display = ''; });
       leaf.style.zIndex = 200;
       leaf.classList.remove('is-dragging');
       leaf.style.transform = '';
@@ -179,7 +187,7 @@
         d.dir = dx < 0 ? 1 : -1;
         if ((d.dir > 0 && canSlideNext()) || (d.dir < 0 && canSlidePrev())) { d.slide = true; d.leaf = true; return; }
         if ((d.dir > 0 && cur >= N) || (d.dir < 0 && cur <= 0)) { d.dir = 0; return; }
-        d.leaf = leaves[d.dir > 0 ? cur : cur - 1];
+        d.leaf = leaves[d.dir > 0 ? cur : cur - 1]; d.leaf.style.display = "";
         d.leaf.classList.add('is-dragging'); d.leaf.style.zIndex = 200;
         stage.classList.add('is-grabbing');
         try { stage.setPointerCapture(e.pointerId); } catch (err) {}

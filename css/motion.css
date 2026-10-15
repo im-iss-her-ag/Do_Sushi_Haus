@@ -184,3 +184,28 @@
   .lantern__glow { animation: none !important; }
   [data-speed], [data-rotate], [data-hero-out] { will-change: auto; }
 }
+
+/* ==========================================================================
+   iOS memory diet (WebKit kills the tab when GPU memory runs out)
+   ========================================================================== */
+@media (pointer: coarse), (max-width: 1023px) {
+  /* SVG displacement filters on HTML are rasterised per element – drop them */
+  [filter], .seal { filter: none !important; }
+  /* blurred, animated steam puffs */
+  .steam { display: none; }
+  /* full-screen fixed glow layers → one static gradient on the body */
+  .ambient { display: none; }
+  body.slate { background-image: radial-gradient(ellipse at 50% 0%, rgba(232,199,102,.06), transparent 55%), url("../assets/img/slate.webp"); }
+  /* book: flat page turns, no shading overlays */
+  .leaf__face::before, .leaf__face::after, .book__inner::before { display: none; }
+  .book__stage { perspective: 1600px; }
+  /* masks and blurs */
+  .menu-nav__cats { mask-image: none; -webkit-mask-image: none; }
+  .zoom { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(8,8,8,.94); }
+  .lantern__glow { display: none; }
+}
+@media (pointer: coarse), (max-width: 1023px) {
+  /* keep each block's painting to itself – stops WebKit from squashing
+     everything below a scroller/animated card into one page-tall layer */
+  .sets, .cat, .section, .chapter, .world-divider, .menu-world, .brand-band, .hero, .alley, .spread { contain: paint; }
+}
