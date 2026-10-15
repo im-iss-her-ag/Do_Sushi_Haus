@@ -361,7 +361,7 @@
       let max = 0;
       list.forEach(li => { write(probe, li); max = Math.max(max, probe.offsetHeight); });
       probe.remove();
-      const cap = innerWidth <= 600 ? innerHeight * .92 : innerHeight - 32;   // never taller than the screen
+      const cap = (window.visualViewport ? visualViewport.height : innerHeight) - (innerWidth <= 600 ? 24 : 32);   // never taller than the screen
       card.style.minHeight = Math.min(max, cap) + 'px';
     };
     const fill = li => {
@@ -384,7 +384,7 @@
       fly.style.transition = 'none';
       fly.style.transform = `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${sx}, ${sy})`;
       void fly.offsetWidth;
-      fly.style.transition = 'transform .62s cubic-bezier(.16,1,.3,1)';
+      fly.style.transition = innerWidth <= 600 ? 'transform .45s cubic-bezier(.22,1,.36,1)' : 'transform .62s cubic-bezier(.16,1,.3,1)';
       fly.style.transform = 'none';
       setTimeout(() => { fly.style.opacity = 0; done && done(); }, 620);
     };

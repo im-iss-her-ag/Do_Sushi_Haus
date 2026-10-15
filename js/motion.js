@@ -95,13 +95,14 @@
   if (reduce) { targets.forEach(show); scrubTexts.forEach(t => t.words.forEach(w => w.classList.add('is-lit'))); return; }
   root.classList.add('js-motion');
 
+  const touchUI = matchMedia('(pointer: coarse), (max-width: 1023px)').matches;
   let lastY = scrollY;
   const io = new IntersectionObserver(entries => entries.forEach(e => {
     const el = e.target;
     if (e.isIntersecting) {
       el.style.setProperty('--dir', e.boundingClientRect.top < 0 ? -1 : 1);
       show(el);
-    } else if (e.boundingClientRect.top > innerHeight) {
+    } else if (!touchUI && e.boundingClientRect.top > innerHeight) {   // phones: reveal once, never replay
       // left through the bottom (user scrolled up) → reset so it replays
       el.style.setProperty('--dir', 1);
       el.classList.remove('is-in', 'is-visible');

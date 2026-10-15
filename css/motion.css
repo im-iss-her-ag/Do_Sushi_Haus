@@ -209,3 +209,48 @@
      everything below a scroller/animated card into one page-tall layer */
   .sets, .cat, .section, .chapter, .world-divider, .menu-world, .brand-band, .hero, .alley, .spread { contain: paint; }
 }
+
+/* ==========================================================================
+   Phones: calmer, smoother reveals (short distance, opacity-led, no tilt/scale)
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) and ((pointer: coarse) or (max-width: 1023px)) {
+  .js-motion .reveal,
+  .js-motion [data-stagger] > :not([data-split]) {
+    transform: translate3d(0, 14px, 0); transition: none;
+  }
+  .js-motion .reveal.is-in,
+  .js-motion [data-stagger].is-in > :not([data-split]) {
+    transform: none;
+    transition: opacity .7s ease var(--d, 0ms), transform .8s cubic-bezier(.22,1,.36,1) var(--d, 0ms);
+  }
+  .js-motion .split-word > span { transform: translate3d(0, 60%, 0); transition: none; }
+  .js-motion .is-in .split-word > span { transition: transform .9s cubic-bezier(.22,1,.36,1) var(--d, 0ms); }
+  .js-motion .reveal-ink img { clip-path: none; transform: scale(1.04); opacity: 0; transition: none; }
+  .js-motion .reveal-ink.is-in img { transform: none; opacity: 1; transition: opacity .8s ease, transform 1s cubic-bezier(.22,1,.36,1); }
+  .js-motion .reveal-wipe { clip-path: none; opacity: 0; transition: none; }
+  .js-motion .reveal-wipe.is-in { opacity: 1; transition: opacity .8s ease; }
+  .js-motion .reveal-wipe img { transform: none; }
+  .js-motion [data-frame] .title-frame__box { clip-path: none; opacity: 0; transition: none; }
+  .js-motion [data-frame].is-in .title-frame__box { opacity: 1; transition: opacity .8s ease; }
+  .sets > :nth-child(n) { --rot: 0deg; }
+  /* set strip: only opacity changes while swiping (no scale = no re-raster) */
+  .sets > .set-card, .sets > .set-card:has(.seal) { scale: 1 !important; transition: opacity .35s ease, box-shadow .35s; }
+  .js-motion .sets[data-stagger] > .set-card { opacity: .55; transform: none; }
+  .js-motion .sets[data-stagger] > .set-card.is-center { opacity: 1; }
+}
+
+/* ---------- Compact header on phones ---------- */
+@media (max-width: 767px) {
+  .site-header__inner { height: 58px; gap: .75rem; }
+  .brand__mark { width: 38px; height: 38px; }
+  .brand__name { font-size: 1rem; }
+  .brand__name small { font-size: .52rem; letter-spacing: .2em; }
+  .menu-toggle { width: 42px; height: 42px; }
+  .menu-nav { top: 57px; }
+  .menu-nav__tabs a { padding: .35em .8em; font-size: .85rem; }
+  .menu-nav__cats { gap: 1.1rem; padding-block: .45rem .6rem; font-size: .92rem; }
+  .page-hero { padding-top: calc(58px + var(--s-6)); }
+  .mobile-menu { padding-top: 96px; }
+  .brand-band { padding-top: calc(58px + 2rem); }
+  [id] { scroll-margin-top: 130px; }
+}
