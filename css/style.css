@@ -451,3 +451,12 @@ html, body { overflow-x: clip; }
   body { overflow-x: hidden; }
   html { overflow-x: hidden; }
 }
+
+/* ---------- Lantern v2: soft pulsing inner light, gentle sway ---------- */
+.lantern { filter: drop-shadow(0 0 14px rgba(255,138,46,.35)); }
+.lantern__glow { filter: blur(16px); opacity: .45; }
+@media (prefers-reduced-motion: no-preference) {
+  .lantern { animation: sway 5s ease-in-out var(--delay) infinite alternate; }
+  .lantern__glow { animation: lantern-breathe 3.8s ease-in-out infinite; }
+}
+@keyframes lantern-breathe { 0%,100% { opacity: .38; } 40% { opacity: .55; } 70% { opacity: .45; } }

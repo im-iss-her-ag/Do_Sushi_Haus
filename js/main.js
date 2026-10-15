@@ -339,19 +339,38 @@
     const card = $('.dsheet__card', box), photo = $('.dsheet__photo', box), img = $('.dsheet__photo img', box), fly = $('.dsheet__fly', box);
     let list = [], idx = 0, opener = null;
 
+    // Write one dish into a sheet root (the real card, or the hidden measuring clone)
+    const write = (root, li) => {
+      const t = $('.dish__thumb', li);
+      $('.dsheet__name', root).textContent = $('.dish__name', li).textContent;
+      $('.dsheet__cat', root).textContent = li.closest('.cat')?.querySelector('.title-frame__box')?.firstChild?.textContent.trim() || '';
+      $('.dsheet__tags', root).innerHTML = [...li.querySelectorAll('.dish__head .tag')].map(x => x.outerHTML).join('');
+      const d = $('.dish__desc', li);
+      $('.dsheet__desc', root).innerHTML = d ? d.innerHTML : '';
+      const o = $('.dish__options', li);
+      $('.dsheet__opts', root).innerHTML = o ? o.innerHTML : '';
+      $('.dsheet__note', root).textContent = (t.dataset.cap || '').includes('Symbolbild') ? 'Symbolbild – Serviervorschlag' : '';
+    };
+    // Keep one fixed card height per category: the tallest dish wins
+    const lockHeight = () => {
+      card.style.minHeight = '';
+      const probe = card.cloneNode(true);
+      probe.classList.add('dsheet__card--probe');
+      probe.style.cssText = `position:absolute;visibility:hidden;pointer-events:none;width:${card.offsetWidth}px;min-height:0;max-height:none;transform:none`;
+      box.append(probe);
+      let max = 0;
+      list.forEach(li => { write(probe, li); max = Math.max(max, probe.offsetHeight); });
+      probe.remove();
+      const cap = innerWidth <= 600 ? innerHeight * .92 : innerHeight - 32;   // never taller than the screen
+      card.style.minHeight = Math.min(max, cap) + 'px';
+    };
     const fill = li => {
       const t = $('.dish__thumb', li);
       img.src = t.dataset.zoom;
-      $('.dsheet__name', box).textContent = $('.dish__name', li).textContent;
-      $('.dsheet__cat', box).textContent = li.closest('.cat')?.querySelector('.title-frame__box')?.firstChild?.textContent.trim() || '';
-      $('.dsheet__tags', box).innerHTML = [...li.querySelectorAll('.dish__head .tag')].map(x => x.outerHTML).join('');
-      const d = $('.dish__desc', li);
-      $('.dsheet__desc', box).innerHTML = d ? d.innerHTML : '';
+      write(box, li);
       const o = $('.dish__options', li);
-      $('.dsheet__opts', box).innerHTML = o ? o.innerHTML : '';
       const pr = $(':scope > .dish__price', li)?.textContent.trim();
       $('.dsheet__price', box).textContent = pr || (o ? 'ab ' + [...o.querySelectorAll('.dish__price')].map(x => x.textContent.trim()).sort((a, b) => parseFloat(a.replace(',', '.')) - parseFloat(b.replace(',', '.')))[0] : '');
-      $('.dsheet__note', box).textContent = (t.dataset.cap || '').includes('Symbolbild') ? 'Symbolbild – Serviervorschlag' : '';
       $('.dsheet__count', box).textContent = `${idx + 1} / ${list.length}`;
       box.classList.remove('is-shown'); void card.offsetWidth; box.classList.add('is-shown');
     };
@@ -377,6 +396,7 @@
       idx = list.indexOf(li);
       fill(li);
       box.classList.add('is-open', 'is-flying');
+      lockHeight();
       document.documentElement.classList.add('dsheet-lock');
       requestAnimationFrame(() => flyBetween(t.getBoundingClientRect(), photo.getBoundingClientRect(), t.dataset.zoom, () => box.classList.remove('is-flying')));
       $('.dsheet__close', box).focus({ preventScroll: true });
