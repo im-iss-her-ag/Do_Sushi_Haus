@@ -4,7 +4,7 @@
    ========================================================================== */
 
 html:has(.qm) { overflow-x: clip; }
-.qm { --R: clamp(250px, 68vw, 380px); --plate: 62px; --lz-top: 50px; --dock: calc(150px + env(safe-area-inset-bottom)); overflow-x: hidden; padding-bottom: var(--dock); }
+.qm { --R: clamp(250px, 68vw, 380px); --plate: 62px; --lz-top: 90px; /* 40px transparent headroom above the disc so the raised plate is never clipped */ --dock: calc(150px + env(safe-area-inset-bottom)); overflow-x: hidden; padding-bottom: var(--dock); }
 .qm main { display: block; }
 
 /* ---------- Header ---------- */
@@ -26,7 +26,7 @@ html:has(.qm) { overflow-x: clip; }
 
 /* ---------- Lazy Susan ---------- */
 .lz__stage {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; height: var(--dock);
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; height: calc(var(--dock) + 40px);
   user-select: none; -webkit-user-select: none; cursor: grab;
   overflow-x: clip; /* the disc is wider than a phone – never let it widen the page */
   pointer-events: none; /* only the disc itself catches touches – the corners stay clickable */
