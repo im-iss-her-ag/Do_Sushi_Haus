@@ -3,6 +3,7 @@
    Concept: "Lazy Susan" – a lacquered turntable; each plate is a category.
    ========================================================================== */
 
+html:has(.qm) { overflow-x: clip; }
 .qm { --R: clamp(250px, 68vw, 380px); --plate: 62px; --lz-top: 50px; --dock: calc(150px + env(safe-area-inset-bottom)); overflow-x: hidden; padding-bottom: var(--dock); }
 .qm main { display: block; }
 
@@ -26,10 +27,11 @@
 /* ---------- Lazy Susan ---------- */
 .lz__stage {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; height: var(--dock);
-  touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: grab;
+  user-select: none; -webkit-user-select: none; cursor: grab;
+  overflow-x: clip; /* the disc is wider than a phone – never let it widen the page */
   pointer-events: none; /* only the disc itself catches touches – the corners stay clickable */
 }
-.lz__wheel { pointer-events: auto; }
+.lz__wheel { pointer-events: auto; touch-action: none; }
 .lz__stage.is-drag { cursor: grabbing; }
 .lz__wheel {
   position: absolute; left: 50%; top: calc(var(--lz-top) + var(--R));
@@ -86,22 +88,9 @@
 .lz__plate:focus-visible .lz__dish { outline: 2px solid var(--gold-soft); outline-offset: 8px; }
 
 
-/* dock collapses to a pill while reading */
-.lz__stage { transition: transform .45s var(--ease), opacity .35s; }
-.lz.is-min .lz__stage { transform: translateY(105%); }
-.lz__pill {
-  position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 41;
-  display: flex; align-items: center; gap: .6rem; padding: .35rem 1rem .35rem .35rem; cursor: pointer;
-  border-radius: 999px; border: 1px solid var(--gold); color: var(--ink);
-  background: rgba(29,12,10,.94); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 10px 28px rgba(0,0,0,.6), 0 0 22px rgba(212,167,44,.18);
-  font-family: var(--font-serif); font-weight: 700; font-size: 1rem; white-space: nowrap;
-  transform: translate(-50%, 160%); opacity: 0; pointer-events: none;
-  transition: transform .45s var(--ease), opacity .3s;
-}
-.lz.is-min .lz__pill { transform: translate(-50%, 0); opacity: 1; pointer-events: auto; }
-.lz__pill img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px #f2ede3; }
-.lz__pill svg { width: 12px; height: 8px; color: var(--gold); }
+/* hidden while the Sushi-Menüs are on screen – the turntable is for the dishes */
+.lz__stage { transition: transform .5s var(--ease); }
+.lz.is-away .lz__stage { transform: translateY(110%); }
 
 /* ---------- Category info ---------- */
 .lz__info { text-align: center; padding: var(--s-6) var(--gutter) var(--s-3); scroll-margin-top: 0; max-width: 560px; margin-inline: auto; min-height: 9.5rem; }
@@ -172,17 +161,6 @@
   transform: rotate(8deg); box-shadow: inset 0 0 0 2px rgba(255,255,255,.2), 0 6px 14px rgba(0,0,0,.5);
 }
 
-/* next-category teaser at the end of the list */
-.qnext { max-width: 720px; margin: 0 auto; padding: 0 var(--gutter) var(--s-6); }
-.qnext button {
-  display: flex; align-items: center; gap: 1rem; width: 100%; padding: .9rem 1.1rem; cursor: pointer;
-  background: none; border: 1px dashed var(--gold-line); border-radius: 999px; color: var(--ink); font: inherit; text-align: left;
-}
-.qnext img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px rgba(242,237,227,.8); }
-.qnext small { display: block; font-size: .68rem; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
-.qnext strong { font-family: var(--font-serif); font-size: 1.15rem; }
-.qnext span:last-child { margin-left: auto; color: var(--gold); font-size: 1.5rem; }
-
 /* ---------- Featured Sushi-Menüs ---------- */
 .qsets { padding: var(--s-4) 0 0; }
 .qsets__head { text-align: center; padding: 0 var(--gutter); }
@@ -243,7 +221,6 @@
 }
 @media (min-width: 900px) {
   .qlist { max-width: 1100px; grid-template-columns: 1fr 1fr; align-items: start; }
-  .qnext { max-width: 560px; }
 }
 
 /* ---------- Footer ---------- */

@@ -118,7 +118,7 @@
   const setAngle = a => { angle = a; wheel.style.transform = `rotate(${-a}deg)`; };
   const markActive = i => plates.forEach((p, k) => p.classList.toggle('is-active', k === i));
 
-  const info = $('#lzInfo'), list = $('#qlist'), next = $('#qnext');
+  const info = $('#lzInfo'), list = $('#qlist');
 
   function renderInfo(c, i) {
     const w = WORLD[c.world];
@@ -148,9 +148,6 @@
           `<span class="qd__name">${esc(d.name)}</span>${d.desc ? `<span class="qd__desc">${d.desc}</span>` : ''}</span>` +
           `<span class="qd__price">${esc(d.price)}</span></button>${opts(d)}</li>`
     ).join('');
-
-    const n = cats[mod(cur + 1)];
-    next.innerHTML = `<button type="button" data-step="1"><img src="${esc(n.cover)}" alt="" loading="lazy"><span><small>Weiterdrehen</small><strong>${esc(n.title)}</strong></span><span>›</span></button>`;
   }
 
   function go(i, { dir = 0, scroll = false, fromDrag = false } = {}) {
@@ -169,88 +166,69 @@
     renderInfo(c, cur);
     renderList(c, d);
     history.replaceState(null, '', '#' + c.id);
-    $('#lzPillImg').src = c.cover;
-    $('#lzPillName').textContent = c.title;
     if (scroll) {
-      lockDock();
       const y = info.getBoundingClientRect().top + scrollY;
       if (Math.abs(scrollY - y) > 4) scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
     }
   }
   const step = s => go(cur + s, { dir: s, scroll: true });
 
-  /* ---------- Drag / swipe the turntable ---------- */
+  /* ---------- Drag / spin the turntable ----------
+     The disc owns its touches (touch-action: none), so the page never steals the gesture.
+     The finger's angle around the wheel centre drives the rotation, like turning a real lazy susan. */
+  const centre = () => { const r = wheel.getBoundingClientRect(); return { x: r.left, y: r.top }; };
+  const fingerAngle = (e, c) => Math.atan2(e.clientX - c.x, c.y - e.clientY) * 180 / Math.PI;
+  const unwrap = d => ((d + 540) % 360) - 180;   // keep deltas in -180..180
   let drag = null;
-  stage.addEventListener('pointerdown', e => {
+  wheel.addEventListener('pointerdown', e => {
     if (e.button !== 0) return;
-    drag = { x: e.clientX, y: e.clientY, a: angle, moved: false, t: performance.now(), v: 0, lx: e.clientX };
+    const c = centre(), fa = fingerAngle(e, c);
+    drag = { c, x: e.clientX, y: e.clientY, a: angle, last: fa, total: 0, moved: false, t: performance.now(), v: 0, plate: e.target.closest('.lz__plate') };
+    wheel.setPointerCapture?.(e.pointerId);
   });
-  addEventListener('pointermove', e => {
+  wheel.addEventListener('pointermove', e => {
     if (!drag) return;
-    const dx = e.clientX - drag.x;
+    const fa = fingerAngle(e, drag.c), d = unwrap(fa - drag.last), now = performance.now();
+    drag.last = fa; drag.total += d;
     if (!drag.moved) {
-      if (Math.abs(dx) < 6) return;
-      if (Math.abs(e.clientY - drag.y) > Math.abs(dx)) { drag = null; return; } // vertical scroll wins
-      drag.moved = true; stage.classList.add('is-drag'); stage.setPointerCapture?.(e.pointerId);
+      if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 8) return;
+      drag.moved = true; stage.classList.add('is-drag');
     }
-    const now = performance.now();
-    drag.v = (e.clientX - drag.lx) / Math.max(1, now - drag.t); drag.lx = e.clientX; drag.t = now;
-    const R = wheel.offsetTop - (parseFloat(getComputedStyle(document.body).getPropertyValue('--lz-top')) || 50);
-    setAngle(drag.a - (dx / R) * (180 / Math.PI));
+    // velocity in deg/ms, lightly smoothed for a natural flick
+    drag.v = drag.v * .6 + (d / Math.max(1, now - drag.t)) * .4; drag.t = now;
+    setAngle(drag.a - drag.total);
     markActive(mod(Math.round(angle / STEP)));
   });
-  const endDrag = () => {
+  const endDrag = e => {
     if (!drag) return;
     const d = drag; drag = null; stage.classList.remove('is-drag');
-    if (!d.moved) return;
-    // flick: carry momentum by up to two plates
-    const fling = Math.max(-2, Math.min(2, Math.round(-d.v * 2.2)));
+    if (!d.moved) {
+      // a tap: on a plate → that category; elsewhere on the disc → left/right half steps
+      if (d.plate) go(+d.plate.dataset.i, { scroll: true });
+      else if (e.type === 'pointerup') step(e.clientX < d.c.x ? -1 : 1);
+      return;
+    }
+    const fling = Math.max(-3, Math.min(3, Math.round((-d.v * 260) / STEP)));
     const target = Math.round(angle / STEP) + fling;
     const dir = Math.sign(target * STEP - d.a) || 1;
     setAngle(target * STEP);
     go(target, { dir, fromDrag: true, scroll: true });
-    stage.dataset.justDragged = '1';
-    setTimeout(() => delete stage.dataset.justDragged, 50);
   };
-  addEventListener('pointerup', endDrag);
-  addEventListener('pointercancel', endDrag);
+  wheel.addEventListener('pointerup', endDrag);
+  wheel.addEventListener('pointercancel', endDrag);
+  wheel.addEventListener('click', e => e.preventDefault()); // taps are handled on pointerup
 
-  wheel.addEventListener('click', e => {
-    const p = e.target.closest('.lz__plate');
-    if (!p || stage.dataset.justDragged) return;
-   
-    go(+p.dataset.i, { scroll: true });
-  });
   stage.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
   });
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-step]');
-    if (b) step(+b.dataset.step);
-  });
 
-  // Swipe sideways on the dish list to turn the table too
-  let sw = null;
-  list.addEventListener('touchstart', e => { const t = e.touches[0]; sw = { x: t.clientX, y: t.clientY }; }, { passive: true });
-  list.addEventListener('touchend', e => {
-    if (!sw) return;
-    const t = e.changedTouches[0], dx = t.clientX - sw.x, dy = t.clientY - sw.y; sw = null;
-    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.8) step(dx < 0 ? 1 : -1);
-  }, { passive: true });
-
-  /* ---------- Dock: collapse while reading down, expand on scroll up ---------- */
+  /* ---------- Turntable appears once the guest has scrolled past the Sushi-Menüs ---------- */
   const lz = $('#lz');
-  let lastY = scrollY, lockUntil = 0;
-  addEventListener('scroll', () => {
-    const y = scrollY, now = performance.now();
-    if (now < lockUntil) { lastY = y; return; }   // ignore our own auto-scroll after a turn
-    if (y > lastY + 6 && y > 160) lz.classList.add('is-min');
-    else if (y < lastY - 10 || y < 160) lz.classList.remove('is-min');
-    lastY = y;
-  }, { passive: true });
-  $('#lzPill').addEventListener('click', () => lz.classList.remove('is-min'));
-  const lockDock = () => { lockUntil = performance.now() + 900; lz.classList.remove('is-min'); };
+  const syncDock = () => lz.classList.toggle('is-away', qsets.getBoundingClientRect().bottom > innerHeight * .55);
+  addEventListener('scroll', syncDock, { passive: true });
+  addEventListener('resize', syncDock);
+  syncDock();
 
   /* ---------- Detail sheet ---------- */
   const sheet = $('#qsheet'), sheetBody = $('#qsheetBody');
