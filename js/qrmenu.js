@@ -116,6 +116,12 @@
   let cur = -1;
   const mod = i => ((i % N) + N) % N;
   const setAngle = a => { angle = a; wheel.style.transform = `rotate(${-a}deg)`; };
+  // detent feel: the plate reaching the top pops, Android phones give a tiny buzz
+  const tick = i => {
+    if (reduceMotion) return;
+    navigator.vibrate?.(6);
+    $('.lz__dish', plates[i]).animate([{ scale: 1 }, { scale: 1.12 }, { scale: 1 }], { duration: 280, easing: 'ease-out' });
+  };
   const markActive = i => plates.forEach((p, k) => p.classList.toggle('is-active', k === i));
 
   const info = $('#lzInfo'), list = $('#qlist');
@@ -134,20 +140,32 @@
   const tags = d => d.tags.map(t => `<span class="${esc(t.cls)}">${esc(t.text)}</span>`).join('');
   const opts = d => d.opts.length ? `<ul class="qd__opts">${d.opts.map(o => `<li><span>${esc(o.name)}</span><span class="lead"></span><span class="p">${esc(o.price)}</span></li>`).join('')}</ul>` : '';
 
+  // cards appear as they scroll in; cards entering together are staggered
+  const reveal = new IntersectionObserver(entries => {
+    entries.filter(en => en.isIntersecting).forEach((en, n) => {
+      en.target.style.setProperty('--rd', `${n * 70}ms`);
+      en.target.classList.remove('is-wait');
+      reveal.unobserve(en.target);
+    });
+  }, { rootMargin: '0px 0px -8% 0px' });
+
   function renderList(c, dir) {
     list.style.setProperty('--dir', dir);
+    const wait = reduceMotion ? '' : ' is-wait';
     list.innerHTML = c.items.map((d, k) => c.sets
-      ? `<li class="qs" style="--i:${k}"><button class="qs__btn" type="button" data-k="${k}">` +
+      ? `<li class="qs${wait}" style="--i:${k}"><button class="qs__btn" type="button" data-k="${k}">` +
           (d.img ? `<span class="qs__img"><img src="${esc(d.img)}" alt="" loading="lazy"></span>` : '') +
           (d.seal ? `<span class="qs__seal">${d.seal}</span>` : '') +
           `<span class="qs__body"><span class="qs__label">${esc(d.label)}</span><span class="qs__name">${esc(d.name)}</span><span class="qs__price">${esc(d.price)}</span>` +
           `<ul class="qs__list">${d.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></span></button></li>`
-      : `<li class="qd" style="--i:${k}"><button class="qd__btn" type="button" data-k="${k}">` +
+      : `<li class="qd${wait}" style="--i:${k}"><button class="qd__btn" type="button" data-k="${k}">` +
           `<span class="qd__img">${d.img ? `<img src="${esc(d.img)}" alt="" loading="lazy" width="84" height="84">` : ''}</span>` +
           `<span class="qd__body"><span class="qd__top"><span class="qd__code">${esc(d.code)}</span>${tags(d)}</span>` +
           `<span class="qd__name">${esc(d.name)}</span>${d.desc ? `<span class="qd__desc">${d.desc}</span>` : ''}</span>` +
           `<span class="qd__price">${esc(d.price)}</span></button>${opts(d)}</li>`
     ).join('');
+    reveal.disconnect();
+    $$('.is-wait', list).forEach(li => reveal.observe(li));
   }
 
   function go(i, { dir = 0, scroll = false, fromDrag = false } = {}) {
@@ -183,7 +201,7 @@
   wheel.addEventListener('pointerdown', e => {
     if (e.button !== 0) return;
     const c = centre(), fa = fingerAngle(e, c);
-    drag = { c, x: e.clientX, y: e.clientY, a: angle, last: fa, total: 0, moved: false, t: performance.now(), v: 0, plate: e.target.closest('.lz__plate') };
+    drag = { c, x: e.clientX, y: e.clientY, a: angle, last: fa, total: 0, moved: false, t: performance.now(), v: 0, plate: e.target.closest('.lz__plate'), tick: mod(Math.round(angle / STEP)) };
     wheel.setPointerCapture?.(e.pointerId);
   });
   wheel.addEventListener('pointermove', e => {
@@ -192,16 +210,18 @@
     drag.last = fa; drag.total += d;
     if (!drag.moved) {
       if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 8) return;
-      drag.moved = true; stage.classList.add('is-drag');
+      drag.moved = true; stage.classList.add('is-drag'); koiPause(true);
     }
     // velocity in deg/ms, lightly smoothed for a natural flick
     drag.v = drag.v * .6 + (d / Math.max(1, now - drag.t)) * .4; drag.t = now;
     setAngle(drag.a - drag.total);
-    markActive(mod(Math.round(angle / STEP)));
+    const idx = mod(Math.round(angle / STEP));
+    if (idx !== drag.tick) { drag.tick = idx; tick(idx); }
+    markActive(idx);
   });
   const endDrag = e => {
     if (!drag) return;
-    const d = drag; drag = null; stage.classList.remove('is-drag');
+    const d = drag; drag = null; stage.classList.remove('is-drag'); koiPause(false);
     if (!d.moved) {
       // a tap: on a plate → that category; elsewhere on the disc → left/right half steps
       if (d.plate) go(+d.plate.dataset.i, { scroll: true });
@@ -264,6 +284,52 @@
   let sy = null;
   sheet.addEventListener('touchstart', e => { if ($('.qsheet__panel', sheet).scrollTop <= 0) sy = e.touches[0].clientY; }, { passive: true });
   sheet.addEventListener('touchend', e => { if (sy !== null && e.changedTouches[0].clientY - sy > 90) closeSheet(); sy = null; }, { passive: true });
+
+  /* ---------- Koi pond ---------- */
+  const koiLayer = $('#qkoi');
+  const KOI = [
+    { w: 88, body: '#c62a1f', fin: '#c62a1f', spot: '#f2ede3', dur: 42000, a: 1, b: 2, ph: 0, dir: 1 },
+    { w: 70, body: '#d4a72c', fin: '#b88a1a', spot: '#f6e7b0', dur: 52000, a: 1, b: 2, ph: 2.2, dir: -1 },
+    { w: 58, body: '#f2ede3', fin: '#c62a1f', spot: '#c62a1f', dur: 61000, a: 2, b: 3, ph: 4.1, dir: 1 },
+  ];
+  const koiSvg = k => `<svg viewBox="0 0 100 40"><path d="M16 20C8 12 4 6 0 3c4 9 4 25 0 34 4-3 8-9 16-17z" fill="${k.fin}" opacity=".8"/><path d="M70 11c-4-9-12-11-14-9 4 4 8 8 10 10zM70 29c-4 9-12 11-14 9 4-4 8-8 10-10z" fill="${k.fin}" opacity=".7"/><path d="M98 20c-6-10-28-14-48-11-15 2-28 6-36 11 8 5 21 9 36 11 20 3 42-1 48-11z" fill="${k.body}"/><ellipse cx="80" cy="18" rx="9" ry="5" fill="${k.spot}" opacity=".9"/><ellipse cx="48" cy="22" rx="10" ry="4" fill="${k.spot}" opacity=".8"/></svg>`;
+  let koiAnims = [], koiW = 0;
+  // Lissajous loop sampled into transform keyframes (computed once per screen width)
+  const swimPath = k => {
+    const W = innerWidth, H = innerHeight, S = 72, pts = [];
+    for (let i = 0; i <= S; i++) {
+      const t = (i / S) * Math.PI * 2 * k.dir;
+      pts.push([W / 2 + W * .52 * Math.sin(k.a * t + k.ph), H / 2 + H * .4 * Math.sin(k.b * t + k.ph * .5)]);
+    }
+    let prev = null;
+    return pts.map(([x, y], i) => {
+      const [nx, ny] = pts[Math.min(i + 1, S)], [px, py] = pts[Math.max(i - 1, 0)];
+      let deg = Math.atan2(ny - py, nx - px) * 180 / Math.PI;
+      if (prev !== null) deg = prev + ((deg - prev + 540) % 360) - 180; // no sudden spins
+      prev = deg;
+      return { transform: `translate(${(x - k.w / 2).toFixed(1)}px, ${(y - k.w * .2).toFixed(1)}px) rotate(${deg.toFixed(1)}deg)` };
+    });
+  };
+  const koiBuild = () => {
+    koiW = innerWidth;
+    koiAnims.forEach(a => a.cancel());
+    koiLayer.innerHTML = KOI.map(k => `<div class="qkoi__fish" style="width:${k.w}px">${koiSvg(k)}</div>`).join('');
+    koiAnims = $$('.qkoi__fish', koiLayer).map((el, i) => {
+      const anim = el.animate(swimPath(KOI[i]), { duration: KOI[i].dur, iterations: Infinity });
+      anim.currentTime = KOI[i].dur * Math.random();
+      return anim;
+    });
+  };
+  function koiPause(on) {
+    koiAnims.forEach(a => on ? a.pause() : a.play());
+    koiLayer.classList.toggle('is-paused', on);
+  }
+  if (!reduceMotion && !navigator.connection?.saveData) {
+    koiBuild();
+    // only rebuild on real width changes (iOS toolbar resizes height constantly)
+    let rt;
+    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (innerWidth !== koiW) koiBuild(); }, 250); });
+  }
 
   /* ---------- Start ---------- */
   stage.tabIndex = 0;

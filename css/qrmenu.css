@@ -7,6 +7,17 @@ html:has(.qm) { overflow-x: clip; }
 .qm { --R: clamp(250px, 68vw, 380px); --plate: 62px; --lz-top: 90px; /* 40px transparent headroom above the disc so the raised plate is never clipped */ --dock: calc(150px + env(safe-area-inset-bottom)); overflow-x: hidden; padding-bottom: var(--dock); }
 .qm main { display: block; }
 
+/* ---------- Koi pond (background) ----------
+   Fish move with transform-only Web Animations → runs on the compositor, no repaints. */
+.qkoi { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; contain: strict; }
+.qkoi__fish { position: absolute; left: 0; top: 0; opacity: .3; will-change: transform; }
+.qkoi__fish svg { display: block; width: 100%; height: auto; animation: koiWag 1.6s ease-in-out infinite alternate; transform-origin: 75% 50%; }
+.qkoi__fish:nth-child(2) svg { animation-duration: 1.9s; }
+.qkoi__fish:nth-child(3) svg { animation-duration: 1.3s; }
+@keyframes koiWag { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+.qkoi.is-paused .qkoi__fish svg { animation-play-state: paused; }
+.qm-head, .qm main, .qm-foot { position: relative; z-index: 1; }
+
 /* ---------- Header ---------- */
 .qm-head {
   display: flex; align-items: center; justify-content: space-between; gap: var(--s-3);
@@ -36,7 +47,7 @@ html:has(.qm) { overflow-x: clip; }
 .lz__wheel {
   position: absolute; left: 50%; top: calc(var(--lz-top) + var(--R));
   width: 0; height: 0;
-  transition: transform .7s cubic-bezier(.2, .9, .25, 1.08);
+  transition: transform .75s cubic-bezier(.2, .9, .3, 1.18); /* slight overshoot = wooden wobble */
 }
 .lz__stage.is-drag .lz__wheel { transition: none; }
 
@@ -104,7 +115,9 @@ html:has(.qm) { overflow-x: clip; }
 
 /* ---------- Dish list ---------- */
 .qlist { list-style: none; margin: 0 auto; padding: var(--s-3) var(--gutter) var(--s-5); max-width: 720px; display: grid; gap: .75rem; }
-.qd, .qs { animation: qIn .55s var(--ease) both; animation-delay: calc(min(var(--i), 8) * 45ms); }
+/* cards are "set down" as they scroll into view */
+.qd, .qs { transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: var(--rd, 0ms); }
+.qd.is-wait, .qs.is-wait { opacity: 0; transform: translateY(26px); }
 @keyframes qIn { from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 28px)); } }
 
 .qd {
@@ -120,6 +133,8 @@ html:has(.qm) { overflow-x: clip; }
   -webkit-tap-highlight-color: transparent;
 }
 .qd__btn:active { transform: scale(.985); }
+.qd__img { transition: transform .9s cubic-bezier(.2, .9, .3, 1.15); transition-delay: var(--rd, 0ms); }
+.qd.is-wait .qd__img { transform: rotate(-40deg) scale(.85); }
 .qd__img { width: 84px; height: 84px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2px rgba(242,237,227,.85), 0 0 0 3px rgba(0,0,0,.6), 0 8px 16px rgba(0,0,0,.5); background: #0c0c0c; }
 .qd__img img { width: 100%; height: 100%; object-fit: cover; }
 .qd__body { min-width: 0; }
