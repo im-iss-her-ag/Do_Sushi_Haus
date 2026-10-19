@@ -66,7 +66,7 @@
   // Mo–So 11:00–14:30 & 16:30–21:00, Tuesday closed (except public holidays)
   const DAYS = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
   const SLOTS = [[660, 870], [990, 1260]];
-  const CLOSED_DAY = 2;
+  const CLOSED_DAY = -1; // tạm thời mở cửa tất cả các ngày (Dienstag Ruhetag = 2)
   const fmt = m => `${String(m / 60 | 0).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
   const now = new Date(), today = now.getDay(), min = now.getHours() * 60 + now.getMinutes();
 

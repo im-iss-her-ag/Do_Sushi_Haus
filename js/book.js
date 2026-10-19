@@ -35,7 +35,7 @@
         <p>Bestellung &amp; Reservierung</p>
         <p><a href="${TEL}">${PHONE}</a></p>
         <p style="margin-top:1em">Steingasse 10 · 98574 Schmalkalden</p>
-        <p>Mo, Mi–So · 11:00–14:30 · 16:30–21:00</p>
+        <p>Mo–So · 11:00–14:30 · 16:30–21:00</p>
         <button class="btn btn--ghost cover__restart" type="button" data-restart>Von vorn blättern</button>
       </div>
     </div>`;
