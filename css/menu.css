@@ -122,13 +122,13 @@
 .set-card--img .set-card__img { border-radius: var(--radius) var(--radius) 0 0; }
 .set-card--img .seal { top: -16px; right: -14px; z-index: 3; width: 3.6rem; height: 3.6rem; transform: rotate(8deg); box-shadow: inset 0 0 0 2px rgba(255,255,255,.18), 0 8px 18px rgba(0,0,0,.55); }
 
-/* Dish codes (A1, U3 …) hidden on the web – names are enough */
-.dish__code { display: none; }
-.dish { grid-template-columns: 1fr auto; }
-.dish .dish__desc, .dish .dish__options { grid-column: 1 / -1; }
-.dish--img { grid-template-columns: 80px 1fr auto; }
-.dish--img .dish__desc, .dish--img .dish__options { grid-column: 2 / -1; }
-@media (max-width: 480px) { .dish--img { grid-template-columns: 64px 1fr auto; } }
+/* Dish codes (A1, U3 …) shown like the printed menu – guests order by number */
+.dish__code { color: var(--ink); font-family: var(--font-serif); white-space: nowrap; }
+.dish { grid-template-columns: 2.2rem 1fr auto; }
+.dish .dish__desc, .dish .dish__options { grid-column: 2 / -1; }
+.dish--img { grid-template-columns: 80px 2.2rem 1fr auto; }
+.dish--img .dish__desc, .dish--img .dish__options { grid-column: 3 / -1; }
+@media (max-width: 480px) { .dish--img { grid-template-columns: 64px 2rem 1fr auto; } }
 .dish__options li > span:first-child { flex: 1; color: var(--ink); }
 
 /* ==========================================================================

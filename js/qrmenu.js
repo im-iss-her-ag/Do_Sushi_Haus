@@ -160,8 +160,8 @@
           `<ul class="qs__list">${d.items.map(x => `<li>${esc(x)}</li>`).join('')}</ul></span></button></li>`
       : `<li class="qd${wait}" style="--i:${k}"><button class="qd__btn" type="button" data-k="${k}">` +
           `<span class="qd__img">${d.img ? `<img src="${esc(d.img)}" alt="" loading="lazy" width="84" height="84">` : ''}</span>` +
-          `<span class="qd__body"><span class="qd__top"><span class="qd__code">${esc(d.code)}</span>${tags(d)}</span>` +
-          `<span class="qd__name">${esc(d.name)}</span>${d.desc ? `<span class="qd__desc">${d.desc}</span>` : ''}</span>` +
+          `<span class="qd__body">${tags(d) ? `<span class="qd__top">${tags(d)}</span>` : ''}` +
+          `<span class="qd__name">${d.code ? `<span class="qd__num">${esc(d.code)}.</span> ` : ''}${esc(d.name)}</span>${d.desc ? `<span class="qd__desc">${d.desc}</span>` : ''}</span>` +
           `<span class="qd__price">${esc(d.price)}</span></button>${opts(d)}</li>`
     ).join('');
     reveal.disconnect();

@@ -140,7 +140,8 @@ html:has(.qm) { overflow-x: clip; }
 .qd__body { min-width: 0; }
 .qd__top { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; margin-bottom: .1rem; }
 .qd__code { font-size: .7rem; font-weight: 700; letter-spacing: .12em; color: var(--gold); opacity: .85; }
-.qd__name { display: block; font-family: var(--font-serif); font-weight: 700; font-size: 1.08rem; line-height: 1.2; color: var(--ink); }
+.qd__num { color: var(--ink); opacity: .7; font-variant-numeric: tabular-nums; }
+.qd__name { display: block; font-family: var(--font-serif); font-weight: 700; font-size: 1.08rem; line-height: 1.2; color: var(--gold); }
 .qd__desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: .2rem; font-size: .85rem; line-height: 1.35; color: var(--muted); }
 .qd__desc b { font-weight: 500; color: var(--ink); opacity: .8; }
 .qd__price { align-self: start; padding-top: .2rem; font-family: var(--font-serif); font-weight: 700; color: var(--gold); white-space: nowrap; font-size: 1.02rem; }
