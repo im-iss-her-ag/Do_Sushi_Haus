@@ -194,11 +194,6 @@ p { margin: 0 0 var(--s-3); }
 .belt.is-dragging { cursor: grabbing; }
 .belt__track { display: flex; gap: clamp(1.25rem, 1rem + 1.5vw, 2.5rem); width: max-content; padding-inline: var(--gutter); will-change: transform; }
 .belt { isolation: isolate; }
-.belt__rail { /* the belt rail – moved with transform only (GPU) */
-  position: absolute; left: 0; right: -40px; top: calc(var(--s-4) + 63px); height: 64px; z-index: -1;
-  background: repeating-linear-gradient(90deg, #1d1d1d 0 38px, #191919 38px 40px);
-  border-block: 1px solid var(--line); will-change: transform;
-}
 .plate { width: 210px; flex: none; text-align: center; }
 .plate__dish {
   width: 190px; margin-inline: auto;
@@ -207,13 +202,14 @@ p { margin: 0 0 var(--s-3); }
   box-shadow: 0 18px 30px rgba(0,0,0,.6);
   transition: translate .45s var(--ease, ease), box-shadow .45s;
 }
+.plate__dish { cursor: pointer; }
 .plate__dish img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .plate:hover .plate__dish { translate: 0 -8px; box-shadow: 0 28px 40px rgba(0,0,0,.7); }
 .plate__kicker { margin: var(--s-3) 0 .15rem; font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
 .plate__name { font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem; text-transform: uppercase; color: var(--gold); letter-spacing: .03em; }
 .plate__meta { font-size: var(--fs-small); color: var(--muted); margin: .2rem 0 .3rem; line-height: 1.35; }
 .plate__price { font-family: var(--font-serif); font-weight: 700; color: var(--ink); }
-@media (max-width: 767px) { .plate { width: 170px; } .plate__dish { width: 156px; } .belt__rail { top: calc(var(--s-4) + 46px); } }
+@media (max-width: 767px) { .plate { width: 170px; } .plate__dish { width: 156px; } }
 
 .belt__nav {
   position: absolute; top: calc(var(--s-4) + 95px); z-index: 2; transform: translateY(-50%);
@@ -340,7 +336,7 @@ p { margin: 0 0 var(--s-3); }
 .belt--native .belt__track { will-change: auto; transform: none !important; }
 .belt--native .plate { scroll-snap-align: start; }
 .belt--native .plate__dish { rotate: none !important; }
-.belt--native .belt__rail, .belt--native .belt__nav { display: none; }
+.belt--native .belt__nav { display: none; }
 
 /* ==========================================================================
    Sushi Menü – premium set cards (the priciest items deserve a showcase)

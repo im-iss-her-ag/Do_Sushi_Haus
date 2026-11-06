@@ -116,6 +116,13 @@
 
   // Phones / touch: native horizontal scrolling (no clones, no per-frame JS, no huge GPU layer).
   // A 34-plate translated track with will-change + mask exhausted GPU memory on iOS and crashed the tab.
+  // Belt plates open the dish sheet (same as the menu photos)
+  if (track) [...track.children].forEach(p => {
+    const d = p.querySelector('.plate__dish'), im = d && d.querySelector('img');
+    if (!im) return;
+    d.dataset.zoom = im.getAttribute('src'); d.dataset.cap = im.alt;
+    d.setAttribute('role', 'button'); d.tabIndex = 0; d.setAttribute('aria-label', 'Details: ' + im.alt);
+  });
   const nativeBelt = belt && (matchMedia('(pointer: coarse)').matches || innerWidth < 1024);
   if (nativeBelt) belt.classList.add('belt--native');
   if (belt && track && !nativeBelt) {
@@ -131,7 +138,6 @@
     };
     measure(); addEventListener('resize', measure);
 
-    const rail = document.createElement('div'); rail.className = 'belt__rail'; belt.prepend(rail);
     let leanShown = 0;
     let x = 0, v = 0, target = null, hover = false, drag = null, visible = false, last = 0, raf = 0, lean = 0, prevX = 0;
     const wrap = () => {
@@ -157,7 +163,6 @@
       }
       wrap();
       track.style.transform = `translate3d(${(-x).toFixed(2)}px,0,0)`;
-      rail.style.transform = `translate3d(${(-(x % 40)).toFixed(2)}px,0,0)`;
       // plates lean with the belt's own speed
       const inst = dt ? (x - prevX) / dt : 0; prevX = x;
       lean += (Math.max(-5, Math.min(5, (inst - AUTO) * 6)) - lean) * Math.min(1, dt * 0.006);
@@ -336,12 +341,23 @@
       </div>
       <img class="dsheet__fly" alt="" aria-hidden="true">`;
     document.body.append(box);
-    const card = $('.dsheet__card', box), photo = $('.dsheet__photo', box), img = $('.dsheet__photo img', box), fly = $('.dsheet__fly', box);
+    const card = $('.dsheet__card', box), img = $('.dsheet__photo img', box), fly = $('.dsheet__fly', box);
     let list = [], idx = 0, opener = null;
 
     // Write one dish into a sheet root (the real card, or the hidden measuring clone)
+    const isPlate = li => li.classList.contains('plate');
+    const thumbOf = li => $('[data-zoom]', li);
     const write = (root, li) => {
-      const t = $('.dish__thumb', li);
+      const t = thumbOf(li);
+      if (isPlate(li)) {
+        $('.dsheet__name', root).textContent = $('.plate__name', li).textContent;
+        $('.dsheet__cat', root).textContent = $('.plate__kicker', li)?.textContent.trim() || '';
+        $('.dsheet__tags', root).innerHTML = '';
+        $('.dsheet__desc', root).textContent = ($('.plate__meta', li)?.textContent || '').replace(/\s*·\s*/g, ' | ');
+        $('.dsheet__opts', root).innerHTML = '';
+        $('.dsheet__note', root).textContent = '';
+        return;
+      }
       $('.dsheet__name', root).textContent = $('.dish__name', li).textContent;
       $('.dsheet__cat', root).textContent = li.closest('.cat')?.querySelector('.title-frame__box')?.firstChild?.textContent.trim() || '';
       $('.dsheet__tags', root).innerHTML = [...li.querySelectorAll('.dish__head .tag')].map(x => x.outerHTML).join('');
@@ -365,11 +381,11 @@
       card.style.minHeight = Math.min(max, cap) + 'px';
     };
     const fill = li => {
-      const t = $('.dish__thumb', li);
+      const t = thumbOf(li);
       img.src = t.dataset.zoom;
       write(box, li);
       const o = $('.dish__options', li);
-      const pr = $(':scope > .dish__price', li)?.textContent.trim();
+      const pr = $(isPlate(li) ? '.plate__price' : ':scope > .dish__price', li)?.textContent.trim();
       $('.dsheet__price', box).textContent = pr || (o ? 'ab ' + [...o.querySelectorAll('.dish__price')].map(x => x.textContent.trim()).sort((a, b) => parseFloat(a.replace(',', '.')) - parseFloat(b.replace(',', '.')))[0] : '');
       $('.dsheet__count', box).textContent = `${idx + 1} / ${list.length}`;
       box.classList.remove('is-shown'); void card.offsetWidth; box.classList.add('is-shown');
@@ -391,20 +407,26 @@
 
     const open = t => {
       opener = t;
-      const li = t.closest('.dish');
-      list = [...li.closest('.menu-list').querySelectorAll('.dish--img')];
+      const li = t.closest('.dish, .plate');
+      list = isPlate(li)
+        ? [...li.parentElement.children].filter(p => p.hasAttribute('aria-hidden') === li.hasAttribute('aria-hidden'))   // originals or the loop clones
+        : [...li.closest('.menu-list').querySelectorAll('.dish--img')];
       idx = list.indexOf(li);
       fill(li);
       box.classList.add('is-open', 'is-flying');
       lockHeight();
       document.documentElement.classList.add('dsheet-lock');
-      requestAnimationFrame(() => flyBetween(t.getBoundingClientRect(), photo.getBoundingClientRect(), t.dataset.zoom, () => box.classList.remove('is-flying')));
+      // Measure the image's FINAL rect (card without its entrance transform), not the outer photo box
+      const tr = card.style.transition; card.style.transition = 'none'; card.style.transform = 'none';
+      const target = img.getBoundingClientRect();
+      card.style.transform = ''; void card.offsetWidth; card.style.transition = tr;
+      requestAnimationFrame(() => flyBetween(t.getBoundingClientRect(), target, t.dataset.zoom, () => box.classList.remove('is-flying')));
       $('.dsheet__close', box).focus({ preventScroll: true });
     };
     const close = () => {
       if (!box.classList.contains('is-open')) return;
-      const thumb = list[idx] && $('.dish__thumb', list[idx]);
-      const from = photo.getBoundingClientRect();
+      const thumb = list[idx] && thumbOf(list[idx]);
+      const from = img.getBoundingClientRect();
       box.classList.add('is-closing');
       if (thumb && !reduceMotion) {
         fly.src = img.src;
@@ -438,6 +460,8 @@
       if (st) step(+st.dataset.step);
     });
     addEventListener('keydown', e => {
+      const z = (e.key === 'Enter' || e.key === ' ') && e.target.matches?.('[data-zoom][role="button"]') && e.target;
+      if (z) { e.preventDefault(); open(z); return; }
       if (!box.classList.contains('is-open')) return;
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowRight') step(1);
